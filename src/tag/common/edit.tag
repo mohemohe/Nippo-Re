@@ -35,6 +35,10 @@
       bottom: 1em;
       right: 1em;
     }
+
+    input, textarea {
+      font-size: 16px !important;
+    }
   </style>
 
   <script>
