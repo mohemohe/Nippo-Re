@@ -79,7 +79,7 @@
       EventWorker.event.trigger('saveNippo:exec', {
         id: self.id,
         title: self.title,
-        date: self.date,
+        date: self.date.split('/').join(''),
         body: self.body,
       });
     }
@@ -130,7 +130,7 @@
         today: "今日",
         clear: "クリア",
         close: "閉じる",
-        format: "yyyy-mm-dd",
+        format: "yyyy/mm/dd",
         onClose: function( arg ){
           self.date = $('#date').val();
         }
