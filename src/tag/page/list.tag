@@ -10,7 +10,7 @@
                   <h4 class="left">{ title }</h4>
                 </div>
                 <div class="col s4">
-                  <h6 class="right">{ date }</h6>
+                  <h6 class="right">{ date.substring(0, 4) + '/' + date.substring(4, 6) + '/' + date.substring(6, 8) }</h6>
                 </div>
               </div>
               <p>{ body.substring(0, 140) }</p>

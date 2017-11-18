@@ -49,7 +49,7 @@
 
     this.id = null;
     this.title = '';
-    this.date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    this.date = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
     this.body = '';
 
     onInput() {
@@ -96,7 +96,7 @@
     getNippoDone(nippo) {
       self.id = nippo.id;
       self.title = nippo.title;
-      self.date = nippo.date;
+      self.date = `${nippo.date.substring(0, 4)}/${nippo.date.substring(4, 6)}/${nippo.date.substring(6, 8)}`;
       self.body = nippo.body;
       EventWorker.event.trigger('md2html:exec', self.body);
       self.update();
