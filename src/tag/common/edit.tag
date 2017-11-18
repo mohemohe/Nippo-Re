@@ -100,7 +100,7 @@
       self.body = nippo.body;
       EventWorker.event.trigger('md2html:exec', self.body);
       self.update();
-      Materialize.updateTextFields()
+      $('.nippo-input').trigger('keydown');
     }
 
     getNippoError() {
