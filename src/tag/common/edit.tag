@@ -107,6 +107,15 @@
       Materialize.toast('失敗しました', 5000);
     }
 
+    hookCtrlS(event) {
+      if((event.ctrlKey || event.metaKey) && event.which == 83) {
+        self.saveNippoExec();
+
+        event.preventDefault();
+        return false;
+      }
+    }
+
     this.on('mount', () => {
       $('.datepicker').pickadate({
         monthsFull:  ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
@@ -134,6 +143,7 @@
       EventWorker.event.on('getNippo:error', self.getNippoError);
       $('.nippo-input').on('keyup', self.onInput);
       $('#save-button').on('click', self.saveNippoExec);
+      $(window).on('keydown', self.hookCtrlS);
 
       const id = parseInt(self.parent.opts.nippoId, 10);
       if(!isNaN(id)) {
@@ -151,6 +161,7 @@
       EventWorker.event.off('getNippo:error', self.getNippoError);
       $('.nippo-input').off('keyup', self.onInput);
       $('#save-button').off('click', self.saveNippoExec);
+      $(window).off('keydown', self.hookCtrlS);
     });
   </script>
 </common-edit>
