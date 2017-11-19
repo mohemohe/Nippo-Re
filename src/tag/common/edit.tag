@@ -153,7 +153,7 @@
       Materialize.updateTextFields()
     });
 
-    this.on('unmount', () => {
+    this.on('before-unmount', () => {
       EventWorker.event.off('md2html:done', self.md2htmlDone);
       EventWorker.event.off('saveNippo:done', self.saveNippoDone);
       EventWorker.event.off('saveNippo:error', self.saveNippoError);
