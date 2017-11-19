@@ -19,7 +19,7 @@
           <label for="markdown">本文</label>
         </div>
         <div class="col m6 hide-on-small-only">
-          <div id="md2html" />
+          <div id="md2html" class="markdown-body" />
         </div>
       </div>
     </form>
@@ -38,6 +38,24 @@
 
     input, textarea {
       font-size: 16px !important;
+    }
+
+    .markdown-body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+
+    .markdown-body li {
+      list-style: outside !important;
+    }
+
+    @media (max-width: 767px) {
+      .markdown-body {
+        padding: 15px;
+      }
     }
   </style>
 
