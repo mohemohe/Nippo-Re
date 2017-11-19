@@ -7,7 +7,7 @@
           <ul class="left">
             <li>
               <a id="header-antergos-jp-logo-link" href="#/" class="brand-logo">
-                <div>Nippo:Re</div>
+                <img src="./static/img/nippore-logo-white.png" alt="Nippo:Re">
               </a>
             </li>
           </ul>
@@ -31,8 +31,13 @@
   </header>
 
   <style>
+    .brand-logo {
+      max-height: 64px;
+    }
+
     .brand-logo > * {
-      padding: 0 0.5rem;
+      padding: 0.666rem;
+      max-height: 64px;
     }
   </style>
 
