@@ -14,6 +14,7 @@
           <ul class="right hide-on-med-and-down">
             <li><a href="#/nippo/create"><i class="material-icons left">mode_edit</i>書く</a></li>
             <li><a href="#/nippo/list"><i class="material-icons left">list</i>一覧</a></li>
+            <li><a href="#/settings"><i class="material-icons left">info</i>設定</a></li>
             <li><a href="#/about"><i class="material-icons left">info</i>Nippo:Reについて</a></li>
           </ul>
 
@@ -25,6 +26,7 @@
       <ul class="side-nav" id="mobile-menu">
         <li><a href="#/nippo/create"><i class="material-icons left">mode_edit</i>書く</a></li>
         <li><a href="#/nippo/list"><i class="material-icons left">list</i>一覧</a></li>
+        <li><a href="#/settings"><i class="material-icons left">info</i>設定</a></li>
         <li><a href="#/about"><i class="material-icons left">info</i>Nippo:Reについて</a></li>
       </ul>
     </div>

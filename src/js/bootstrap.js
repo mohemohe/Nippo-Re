@@ -13,6 +13,7 @@ import '../tag/page/create.tag';
 import '../tag/page/edit.tag';
 import '../tag/page/list.tag';
 import '../tag/page/about.tag';
+import '../tag/page/settings.tag';
 
 import { IndexedDb } from './indexedDb';
 
@@ -26,6 +27,7 @@ router.routes([
   new Router.DefaultRoute({tag: 'page-list'}),
   new Router.NotFoundRoute({tag: 'common-notfound'}),
   new Router.Route({path: '/about', tag: 'page-about'}),
+  new Router.Route({path: '/settings', tag: 'page-settings'}),
   new Router.Route({path: '/nippo/list', tag: 'page-list'}),
   new Router.Route({path: '/nippo/create', tag: 'page-create'}),
   new Router.Route({path: '/nippo/edit/:nippoId', tag: 'page-edit'}),
