@@ -48,7 +48,7 @@
       padding: 45px;
     }
 
-    .markdown-body li {
+    .markdown-body ul li {
       list-style: outside !important;
     }
 
