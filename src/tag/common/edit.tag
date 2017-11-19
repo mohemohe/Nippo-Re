@@ -4,7 +4,7 @@
       <div class="row">
         <div class="input-field col m9 s12">
           <i class="material-icons prefix">title</i>
-          <input placeholder="分かりやすいタイトルは得てして短いものです" id="title" type="text" class="validate nippo-input" value="{ this.title }">
+          <input placeholder="分かりやすいタイトルは得てして短いものです" id="title" type="text" class="validate active nippo-input" value="{ this.title }">
           <label for="title">タイトル</label>
         </div>
         <div class="input-field col m3 s12">
@@ -15,7 +15,7 @@
       </div>
       <div class="row">
         <div class="input-field col m6 s12">
-          <textarea placeholder="Markdownで書けます" id="markdown" class="materialize-textarea nippo-input" >{ this.body }</textarea>
+          <textarea placeholder="Markdownで書けます" id="markdown" class="materialize-textarea active nippo-input" >{ this.body }</textarea>
           <label for="markdown">本文</label>
         </div>
         <div class="col m6 hide-on-small-only">
@@ -101,6 +101,7 @@
       EventWorker.event.trigger('md2html:exec', self.body);
       self.update();
       $('.nippo-input').trigger('keydown');
+      Materialize.updateTextFields();
     }
 
     getNippoError() {
