@@ -44,6 +44,8 @@ EventWorker.register('md2html:exec', Worker.md2html);
 EventWorker.register('saveNippo:exec', Worker.nippoSave);
 EventWorker.register('listNippo:exec', Worker.nippoList);
 EventWorker.register('getNippo:exec', Worker.nippoGet);
+EventWorker.register('importNippo:exec', Worker.nippoImport);
+EventWorker.register('exportNippo:exec', Worker.nippoExport);
 
 IndexedDb.initialize();
 

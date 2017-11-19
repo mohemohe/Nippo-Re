@@ -2162,6 +2162,12 @@ indent-string@^2.1.0:
   dependencies:
     repeating "^2.0.0"
 
+indexeddb-export-import@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/indexeddb-export-import/-/indexeddb-export-import-1.0.3.tgz#ba22d19d4e330fb064b02b80c15ac71cf848d0b4"
+  dependencies:
+    underscore "^1.8.3"
+
 indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
@@ -4401,6 +4407,10 @@ uglifyjs-webpack-plugin@^0.4.6:
 uid-number@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
+
+underscore@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
 
 underscore@~1.4.4:
   version "1.4.4"
