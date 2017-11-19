@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const UglifyEsPlugin = require('uglify-es-webpack-plugin');
 
 module.exports = [
   {
@@ -36,7 +37,7 @@ module.exports = [
     },
     plugins: [
       new webpack.ProvidePlugin({ riot: 'riot' }),
-      new webpack.optimize.UglifyJsPlugin(),
+      new UglifyEsPlugin(),
     ],
     devServer: {
       port: 3000,
