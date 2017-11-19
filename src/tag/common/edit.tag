@@ -116,6 +116,17 @@
       }
     }
 
+    dispose() {
+      EventWorker.event.off('md2html:done', self.md2htmlDone);
+      EventWorker.event.off('saveNippo:done', self.saveNippoDone);
+      EventWorker.event.off('saveNippo:error', self.saveNippoError);
+      EventWorker.event.off('getNippo:done', self.getNippoDone);
+      EventWorker.event.off('getNippo:error', self.getNippoError);
+      $('.nippo-input').off('keyup', self.onInput);
+      $('#save-button').off('click', self.saveNippoExec);
+      $(window).off('keydown', self.hookCtrlS);
+    }
+
     this.on('mount', () => {
       $('.datepicker').pickadate({
         monthsFull:  ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
@@ -149,19 +160,10 @@
       if(!isNaN(id)) {
         EventWorker.event.trigger('getNippo:exec', id);
       }
-
-      Materialize.updateTextFields()
     });
 
     this.on('before-unmount', () => {
-      EventWorker.event.off('md2html:done', self.md2htmlDone);
-      EventWorker.event.off('saveNippo:done', self.saveNippoDone);
-      EventWorker.event.off('saveNippo:error', self.saveNippoError);
-      EventWorker.event.off('getNippo:done', self.getNippoDone);
-      EventWorker.event.off('getNippo:error', self.getNippoError);
-      $('.nippo-input').off('keyup', self.onInput);
-      $('#save-button').off('click', self.saveNippoExec);
-      $(window).off('keydown', self.hookCtrlS);
+      self.dispose();
     });
   </script>
 </common-edit>
