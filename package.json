@@ -21,14 +21,18 @@
     "jquery": "^3.2.1",
     "marked": "^0.3.6",
     "materialize-css": "^0.100.2",
+    "replace": "^0.3.0",
     "riot": "^3.7.0",
     "riot-router": "^0.9.7"
   },
   "scripts": {
     "test": "echo にゃ～ん",
-    "build:pre": "shx mkdir -p ./static/js",
-    "build": "webpack",
+    "build:pre:mkdir": "mkdir -p ./static/js",
+    "build:pre:cphtml": "cp -f ./src/html/index.html ./index.html",
+    "build:webpack": "webpack",
+    "build:replacehash": "replace '####GIT_COMMIT_HASH####' $(git rev-parse HEAD) ./index.html",
+    "build": "npm-run-all build:pre:mkdir build:pre:cphtml build:replacehash build:webpack",
     "watch:server": "webpack-dev-server --config ./webpack.dev.config.js --inline",
-    "watch": "npm-run-all build:pre watch:server"
+    "watch": "npm-run-all build:pre:mkdir build:pre:cphtml watch:server"
   }
 }
