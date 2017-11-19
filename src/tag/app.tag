@@ -20,6 +20,7 @@
 
     main {
       flex: 1;
+      margin-top: 1rem;
     }
   </style>
 </app>
