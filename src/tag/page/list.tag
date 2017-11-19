@@ -2,6 +2,18 @@
   <div class="container">
     <div class="row">
       <div class="col s12">
+        <ul class="pagination">
+          <li class="waves-effect" onclick="{ minusPaginateIndex }"><a href="javascript:void(0);"><i class="material-icons">chevron_left</i></a></li>
+          <span each="{ paginate }">
+            <li class="{ isActive ? 'active' : '' } waves-effect" onclick="{ changePaginateIndex }"><a href="javascript:void(0);">{ number }</a></li>
+          </span>
+          <li class="waves-effect" onclick="{ plusPaginateIndex }"><a><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12">
         <div class="collection">
           <div each="{ list }">
             <a class="collection-item" href="{ '#/nippo/edit/' + id }">
@@ -22,17 +34,12 @@
 
     <div class="row">
       <div class="col s12">
-        👇未実装だよ
-      </div>
-    </div>
-    <div class="row">
-      <div class="col s12">
         <ul class="pagination">
-          <li class="waves-effect"><a href="javascript:void(0);"><i class="material-icons">chevron_left</i></a></li>
+          <li class="waves-effect" onclick="{ minusPaginateIndex }"><a href="javascript:void(0);"><i class="material-icons">chevron_left</i></a></li>
           <span each="{ paginate }">
-            <li class="{ isActive ? 'active' : '' } waves-effect"><a href="javascript:void(0);">{ number }</a></li>
+            <li class="{ isActive ? 'active' : '' } waves-effect" onclick="{ changePaginateIndex }"><a href="javascript:void(0);">{ number }</a></li>
           </span>
-          <li class="waves-effect"><a><i class="material-icons">chevron_right</i></a></li>
+          <li class="waves-effect" onclick="{ plusPaginateIndex }"><a><i class="material-icons">chevron_right</i></a></li>
         </ul>
       </div>
     </div>
@@ -43,7 +50,7 @@
 
     this.paginateIndex = 1;
     this.offset = 0;
-    this.limit = 50;
+    this.limit = 10;
     this.paginate = [];
     this.list = [];
 
@@ -59,9 +66,9 @@
       self.update();
     }
 
-    updatePaginate(offset) {
+    updatePaginate() {
       const paginateIndex = self.paginateIndex;
-      self.offset = paginateIndex * self.limit;
+      self.offset = (paginateIndex - 1) * self.limit;
       self.paginate = [];
 
       let lowerLimit = self.paginateIndex - 2;
@@ -79,6 +86,29 @@
       }
 
       self.update();
+    }
+
+    changePaginateIndex(event) {
+      self.paginateIndex = parseInt(event.target.innerHTML, 10);
+      self.updatePaginate();
+
+      EventWorker.event.trigger('listNippo:exec', self.offset, self.limit);
+    }
+
+    minusPaginateIndex() {
+      if(self.paginateIndex > 1) {
+        self.paginateIndex--;
+      }
+      self.updatePaginate();
+
+      EventWorker.event.trigger('listNippo:exec', self.offset, self.limit);
+    }
+
+    plusPaginateIndex() {
+      self.paginateIndex++;
+      self.updatePaginate();
+
+      EventWorker.event.trigger('listNippo:exec', self.offset, self.limit);
     }
 
     errorList() {
