@@ -50,6 +50,10 @@
       padding-left: 1rem;
     }
 
+    input {
+      font-size: 16px !important;
+    }
+
     pre {
       font-family: Koruri;
       white-space: pre-wrap;
