@@ -92,7 +92,7 @@
       self.paginateIndex = parseInt(event.target.innerHTML, 10);
       self.updatePaginate();
 
-      EventWorker.event.trigger('listNippo:exec', self.offset, self.limit);
+      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
     }
 
     minusPaginateIndex() {
@@ -101,14 +101,14 @@
       }
       self.updatePaginate();
 
-      EventWorker.event.trigger('listNippo:exec', self.offset, self.limit);
+      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
     }
 
     plusPaginateIndex() {
       self.paginateIndex++;
       self.updatePaginate();
 
-      EventWorker.event.trigger('listNippo:exec', self.offset, self.limit);
+      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
     }
 
     errorList() {
@@ -116,9 +116,9 @@
     }
 
     this.on('mount', () => {
-      EventWorker.event.on('listNippo:done', self.updateList);
-      EventWorker.event.on('listNippo:error', self.errorList);
-      EventWorker.event.trigger('listNippo:exec', self.offset, self.limit);
+      EventWorker.event.on('nippoList:done', self.updateList);
+      EventWorker.event.on('nippoList:error', self.errorList);
+      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
       self.updatePaginate();
     });
 

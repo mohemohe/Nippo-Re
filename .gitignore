@@ -118,3 +118,5 @@ nbproject
 .node_history
 
 assets/js/bundle.js
+config/auth.js
+config/csrf.js

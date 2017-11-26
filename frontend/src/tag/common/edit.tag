@@ -74,14 +74,14 @@
       self.title = $('#title').val();
       self.date = $('#date').val();
       self.body = $('#markdown').val();
-      EventWorker.event.trigger('md2html:exec', self.body);
+      EventWorker.event.trigger('md2html:raise', self.body);
     }
 
     md2htmlDone(html) {
       riot.mount('div#md2html', 'common-raw', {content: html});
     }
 
-    saveNippoExec() {
+    nippoSaveExec() {
       if(self.title === '') {
         return Materialize.toast('タイトルを入力してください', 5000);
       }
@@ -94,7 +94,7 @@
         return Materialize.toast('本文を入力してください', 5000);
       }
 
-      EventWorker.event.trigger('saveNippo:exec', {
+      EventWorker.event.trigger('nippoSave:raise', {
         id: self.id,
         title: self.title,
         date: self.date.split('/').join(''),
@@ -102,12 +102,12 @@
       });
     }
 
-    saveNippoDone(id) {
+    nippoSaveDone(id) {
       self.id = id;
       Materialize.toast('保存しました', 5000);
     }
 
-    saveNippoError() {
+    nippoSaveError() {
       Materialize.toast('失敗しました', 5000);
     }
 
@@ -116,7 +116,7 @@
       self.title = nippo.title;
       self.date = `${nippo.date.substring(0, 4)}/${nippo.date.substring(4, 6)}/${nippo.date.substring(6, 8)}`;
       self.body = nippo.body;
-      EventWorker.event.trigger('md2html:exec', self.body);
+      EventWorker.event.trigger('md2html:raise', self.body);
       self.update();
       $('.nippo-input').trigger('keydown');
       Materialize.updateTextFields();
@@ -128,7 +128,7 @@
 
     hookCtrlS(event) {
       if((event.ctrlKey || event.metaKey) && event.which == 83) {
-        self.saveNippoExec();
+        self.nippoSaveExec();
 
         event.preventDefault();
         return false;
@@ -137,12 +137,12 @@
 
     dispose() {
       EventWorker.event.off('md2html:done', self.md2htmlDone);
-      EventWorker.event.off('saveNippo:done', self.saveNippoDone);
-      EventWorker.event.off('saveNippo:error', self.saveNippoError);
-      EventWorker.event.off('getNippo:done', self.getNippoDone);
-      EventWorker.event.off('getNippo:error', self.getNippoError);
+      EventWorker.event.off('nippoSave:done', self.nippoSaveDone);
+      EventWorker.event.off('nippoSave:error', self.nippoSaveError);
+      EventWorker.event.off('nippoGet:done', self.getNippoDone);
+      EventWorker.event.off('nippoGet:error', self.getNippoError);
       $('.nippo-input').off('keyup', self.onInput);
-      $('#save-button').off('click', self.saveNippoExec);
+      $('#save-button').off('click', self.nippoSaveExec);
       $(window).off('keydown', self.hookCtrlS);
     }
 
@@ -167,17 +167,17 @@
       });
 
       EventWorker.event.on('md2html:done', self.md2htmlDone);
-      EventWorker.event.on('saveNippo:done', self.saveNippoDone);
-      EventWorker.event.on('saveNippo:error', self.saveNippoError);
-      EventWorker.event.on('getNippo:done', self.getNippoDone);
-      EventWorker.event.on('getNippo:error', self.getNippoError);
+      EventWorker.event.on('nippoSave:done', self.nippoSaveDone);
+      EventWorker.event.on('nippoSave:error', self.nippoSaveError);
+      EventWorker.event.on('nippoGet:done', self.getNippoDone);
+      EventWorker.event.on('nippoGet:error', self.getNippoError);
       $('.nippo-input').on('keyup', self.onInput);
-      $('#save-button').on('click', self.saveNippoExec);
+      $('#save-button').on('click', self.nippoSaveExec);
       $(window).on('keydown', self.hookCtrlS);
 
       const id = parseInt(self.parent.opts.nippoId, 10);
       if(!isNaN(id)) {
-        EventWorker.event.trigger('getNippo:exec', id);
+        EventWorker.event.trigger('nippoGet:raise', id);
       }
     });
 

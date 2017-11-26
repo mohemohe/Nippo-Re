@@ -16,6 +16,11 @@
             <li><a href="#/nippo/list"><i class="material-icons left">list</i>一覧</a></li>
             <li><a href="#/settings"><i class="material-icons left">settings</i>設定</a></li>
             <li><a href="#/about"><i class="material-icons left">info</i>Nippo:Reについて</a></li>
+            <li show="{ localStorage.username }"><a class="dropdown-button" href="javascript:void(0)" data-activates="account-dropdown"><i class="material-icons left">person</i>ID: { localStorage.username }<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li show="{ !localStorage.username }"><a href="#/login"><i class="material-icons left">person</i>ログイン / 新規登録</a></li>
+          </ul>
+          <ul id="account-dropdown" class="dropdown-content">
+            <li><a href="javascript:void(0)" onclick="{ logout }">ログアウト</a></li>
           </ul>
 
           <a href="javascript:void(0);" class="button-collapse" data-activates="mobile-menu"><i class="material-icons">menu</i></a>
@@ -28,11 +33,24 @@
         <li><a href="#/nippo/list"><i class="material-icons left">list</i>一覧</a></li>
         <li><a href="#/settings"><i class="material-icons left">settings</i>設定</a></li>
         <li><a href="#/about"><i class="material-icons left">info</i>Nippo:Reについて</a></li>
+
+        <li class="divider"></li>
+
+        <li show="{ localStorage.username }"><a href="javascript:void(0)"><i class="material-icons left">person</i>ID: { localStorage.username }</a></li>
+        <li show="{ localStorage.username }"><a href="javascript:void(0)" onclick="{ logout }">ログアウト</a></li>
+        <li show="{ !localStorage.username }"><a href="#/login"><i class="material-icons left">person</i>ログイン / 新規登録</a></li>
+
       </ul>
     </div>
   </header>
 
   <style>
+    nav {
+      height: 64px !important;
+      min-height: 64px !important;
+      max-height: 64px !important;
+    }
+
     .brand-logo {
       max-height: 64px;
     }
@@ -41,9 +59,29 @@
       padding: 0.666rem;
       max-height: 64px;
     }
+
+    #account-dropdown {
+      top: 64px !important;
+    }
   </style>
 
   <script>
+    import {EventWorker} from "../../js/eventWorker";
+
+    const self = this;
+
+    onGetUserName() {
+      self.update();
+    }
+
+    logout() {
+      EventWorker.event.trigger('apiLogout:raise');
+    }
+
+    onLogout() {
+      self.update();
+    }
+
     this.on('mount', () => {
       $(".button-collapse").sideNav({
         closeOnClick: true,
@@ -56,9 +94,8 @@
         belowOrigin: true,
       });
 
-      EventWorker.event.on('hashChanged', (hash) => {
-        console.log(hash);
-      });
+      EventWorker.event.on('apiGetUserName:done', self.onGetUserName);
+      EventWorker.event.on('apiLogout:done', self.onLogout);
     });
 
   </script>

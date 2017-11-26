@@ -13,25 +13,25 @@ export function nippoSave(args) {
   }
 
   IndexedDb.dexie.nippo.put(dbObj).then((result) => {
-    EventWorker.event.trigger('saveNippo:done', result);
+    EventWorker.event.trigger('nippoSave:done', result);
   }).catch(() => {
-    EventWorker.event.trigger('saveNippo:error');
+    EventWorker.event.trigger('nippoSave:error');
   });
 }
 
 export function nippoList(offset, limit) {
   IndexedDb.dexie.nippo.orderBy('date').reverse().offset(offset).limit(limit).toArray().then((result) => {
-    EventWorker.event.trigger('listNippo:done', result);
+    EventWorker.event.trigger('nippoList:done', result);
   }).catch(() => {
-    EventWorker.event.trigger('listNippo:error');
+    EventWorker.event.trigger('nippoList:error');
   });
 }
 
 export function nippoGet(id) {
   IndexedDb.dexie.nippo.get(id).then((result) => {
-    EventWorker.event.trigger('getNippo:done', result);
+    EventWorker.event.trigger('nippoGet:done', result);
   }).catch(() => {
-    EventWorker.event.trigger('getNippo:error');
+    EventWorker.event.trigger('nippoGet:error');
   });
 }
 
@@ -44,12 +44,12 @@ export function nippoImport() {
     return IndexedDb.import(jsonString);
   }).then(result => {
     if (result) {
-      EventWorker.event.trigger('importNippo:done');
+      EventWorker.event.trigger('nippoImport:done');
     } else {
-      EventWorker.event.trigger('importNippo:error');
+      EventWorker.event.trigger('nippoImport:error');
     }
   }).catch(e => {
-    EventWorker.event.trigger('importNippo:error');
+    EventWorker.event.trigger('nippoImport:error');
   });
 }
 
@@ -77,7 +77,7 @@ function loadFile() {
 export function nippoExport() {
   IndexedDb.export().then(jsonString => {
     if(jsonString === null) {
-      return EventWorker.event.trigger('exportNippo:error');
+      return EventWorker.event.trigger('nippoExport:error');
     }
 
     const blob = new Blob([ jsonString ], { 'type' : 'text/plain' });

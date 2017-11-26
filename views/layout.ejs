@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="csrf-token" content="<%= _csrf %>">
     <title>Nippo:Re</title>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
@@ -20,7 +21,7 @@
   <body>
     <%- body %>
 
-    <script src="/js/dependencies/sails.io.js" defer="defer"></script>
+    <!--<script src="/js/dependencies/sails.io.js" defer="defer"></script>-->
     <% if (sails.config.environment === 'development') { %>
     <script src="//<%=req.host%>:<%=sails.config.webpack.server.port%>/bundle.js"></script>
     <% } else { %>

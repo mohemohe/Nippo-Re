@@ -1,0 +1,44 @@
+/*
+module.exports.auth = {
+
+  // Your implementation for sending out the verification email
+  sendVerificationEmail: (user, activateToken) => {
+    // @todo implement
+  },
+
+  // Options concerning a user's identity
+  identityOptions: {
+
+    // Property to use for login (one of "email" or "username").
+    loginProperty: 'username',
+
+    // Parameters for user sign-up. @see https://www.npmjs.com/package/request-helpers
+    parameterBlueprint: ['username'],
+
+    // Option to define which relations to populate on the user find
+    // can be an array (of relations), a string (single relation), or a boolean (all or nothing).
+    populate: true,
+
+    // Whether or not you wish to require a user to validate their email address before being able to log in.
+    requireEmailVerification: false,
+  },
+
+  jwt: {
+    // Properties to store on the token. Useful for instance to store the user's role, or language.
+    // Accepts nested arguments. E.g.: ['role', {locale: ['language', 'locale']}]
+    payloadProperties: [],
+
+    // Time to live for the access token
+    accessTokenTtl: 86400,  // 1 day
+
+    // Time to live for the refresh token
+    refreshTokenTtl: 2592000, // 30 days
+
+    // The secret used to sign tokens with.
+    secret: '123'
+  },
+
+  // If you're using wetland (requires different query types)
+  wetland: false,
+};
+*/

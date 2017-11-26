@@ -14,11 +14,14 @@ import '../tag/page/edit.tag';
 import '../tag/page/list.tag';
 import '../tag/page/about.tag';
 import '../tag/page/settings.tag';
-
-import { IndexedDb } from './indexedDb';
+import '../tag/page/login.tag';
+import '../tag/page/signup.tag';
 
 import { EventWorker } from './eventWorker';
-import * as Worker from './worker';
+import { IndexedDb } from './indexedDb';
+
+EventWorker.initialize();
+IndexedDb.initialize();
 
 document.title = 'Nippo:Re';
 
@@ -31,23 +34,14 @@ router.routes([
   new Router.Route({path: '/nippo/list', tag: 'page-list'}),
   new Router.Route({path: '/nippo/create', tag: 'page-create'}),
   new Router.Route({path: '/nippo/edit/:nippoId', tag: 'page-edit'}),
+  new Router.Route({path: '/login', tag: 'page-login'}),
+  new Router.Route({path: '/signup', tag: 'page-signup'}),
 ]);
-
-EventWorker.initialize();
 
 router.on('route:updated', () => {
   EventWorker.event.trigger('hashChanged', location.hash);
   window.scrollTo(0, 0);
 });
-
-EventWorker.register('md2html:exec', Worker.md2html);
-EventWorker.register('saveNippo:exec', Worker.nippoSave);
-EventWorker.register('listNippo:exec', Worker.nippoList);
-EventWorker.register('getNippo:exec', Worker.nippoGet);
-EventWorker.register('importNippo:exec', Worker.nippoImport);
-EventWorker.register('exportNippo:exec', Worker.nippoExport);
-
-IndexedDb.initialize();
 
 riot.mount('*');
 router.start();

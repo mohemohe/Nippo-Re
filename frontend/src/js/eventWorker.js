@@ -5,6 +5,10 @@ export class EventWorker {
     window.__store = {};
     window.__event = riot.observable();
     window.EventWorker = this;
+
+    Object.keys(Worker).forEach((worker) => {
+      EventWorker.register(`${worker}:raise`, worker)
+    })
   }
 
   static register(event, worker) {

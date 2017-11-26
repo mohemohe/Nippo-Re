@@ -89,4 +89,13 @@ module.exports.connections = {
   *                                                                          *
   ***************************************************************************/
 
+  mongo: {
+    adapter: 'sails-mongo',
+    host: 'localhost',
+    port: 27017,
+    // user: 'username', //optional
+    // password: 'password', //optional
+    database: 'nippore' //optional
+  },
+
 };

@@ -12,6 +12,8 @@
     "riot-tag-loader": "^1.0.0"
   },
   "dependencies": {
+    "aes-js": "^3.1.0",
+    "axios": "^0.17.1",
     "babel-preset-es2015": "^6.24.1",
     "dexie": "^2.0.1",
     "ejs": "2.3.4",
@@ -31,15 +33,19 @@
     "include-all": "^1.0.0",
     "indexeddb-export-import": "^1.0.3",
     "jquery": "^3.2.1",
+    "js-sha256": "^0.8.0",
     "marked": "^0.3.6",
     "materialize-css": "^0.100.2",
+    "pako": "^1.0.6",
     "rc": "1.0.1",
     "replace": "^0.3.0",
     "riot": "^3.7.0",
     "riot-router": "^0.9.7",
     "sails": "~0.12.14",
     "sails-disk": "~0.10.9",
+    "sails-hook-authorization": "^2.0.0-0",
     "sails-hook-webpack2": "handhead/sails-hook-webpack2",
+    "sails-mongo": "^0.12.2",
     "uglify-es-webpack-plugin": "^0.10.0",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.4"
