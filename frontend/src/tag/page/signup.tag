@@ -36,6 +36,12 @@
     </div>
   </div>
 
+  <style>
+    input {
+      font-size: 16px !important;
+    }
+  </style>
+
   <script>
     import axios from 'axios';
     axios.defaults.withCredentials = true;

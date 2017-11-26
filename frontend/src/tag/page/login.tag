@@ -31,6 +31,12 @@
     </div>
   </div>
 
+  <style>
+    input {
+      font-size: 16px !important;
+    }
+  </style>
+
   <script>
     const self = this;
 
