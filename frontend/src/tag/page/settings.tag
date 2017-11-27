@@ -54,15 +54,6 @@
     </div>
   </div>
 
-  <div class="switch">
-    <label>
-      Off
-      <input type="checkbox">
-      <span class="lever"></span>
-      On
-    </label>
-  </div>
-
   <style>
     .collection-header {
       border-bottom: 1px solid #e0e0e0;
