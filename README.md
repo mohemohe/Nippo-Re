@@ -1,4 +1,4 @@
-Nippo:Re
+![](https://cdn.rawgit.com/mohemohe/Nippo-Re/0ff664df/assets/images/nippore-logo-dark.png)
 ====
 
 ### 日暮里。
@@ -7,6 +7,6 @@ Nippo:Re
 
 日報を書くための何か。
 
-![](https://i.imgur.com/zc5w5cd.png)
+![](https://i.imgur.com/V1ii21b.png)
 
-![](https://i.imgur.com/wkQmuaI.png)
+![](https://i.imgur.com/GszoIpe.png)
