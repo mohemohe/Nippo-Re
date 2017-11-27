@@ -25,7 +25,7 @@
     <% if (sails.config.environment === 'development') { %>
     <script src="//<%=req.host%>:<%=sails.config.webpack.server.port%>/bundle.js"></script>
     <% } else { %>
-    <script src="/js/bundle.js" defer="defer"></script>
+    <script src="/js/bundle.js?v=<%=global.currentGitCommitHash%>" defer="defer"></script>
     <% } %>
   </body>
 </html>
