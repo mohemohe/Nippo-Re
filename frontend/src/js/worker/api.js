@@ -60,6 +60,12 @@ export function apiSignup(username, password) {
 }
 
 export function apiRefreshToken() {
+  const lastTokenRefresh = localStorage.lastTokenRefresh;
+  if(lastTokenRefresh && lastTokenRefresh + 60 * 60 * 24 > new Date().getTime()) {
+    EventWorker.event.trigger('apiRefreshToken:done');
+    return Promise.resolve(JSON.parse(localStorage.auth_info));
+  }
+
   const authInfo = JSON.parse(localStorage.auth_info);
 
   return axios.post('/auth/refresh-token', authInfo).then(res => {
@@ -70,6 +76,9 @@ export function apiRefreshToken() {
     } else {
       throw new Error();
     }
+
+    localStorage.lastTokenRefresh = new Date().getTime();
+
     EventWorker.event.trigger('apiRefreshToken:done');
     return data;
   }).catch(e => {

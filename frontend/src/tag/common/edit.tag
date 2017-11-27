@@ -4,19 +4,19 @@
       <div class="row">
         <div class="input-field col m9 s12">
           <i class="material-icons prefix">title</i>
-          <input placeholder="分かりやすいタイトルは得てして短いものです" id="title" type="text" class="validate active nippo-input" value="{ this.title }">
+          <input id="title" type="text" class="validate active nippo-input" value="{ this.title }">
           <label for="title">タイトル</label>
         </div>
         <div class="input-field col m3 s12">
           <i class="material-icons prefix">today</i>
-          <input placeholder="日付を誤魔化すのはやめましょう" value="{ this.date }" id="date" type="text" class="datepicker active nippo-input">
-          <label for="date">日付</label>
+          <input value="{ this.date }" id="date" type="text" class="datepicker active nippo-input">
+          <label for="date"></label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col m6 s12">
-          <textarea placeholder="Markdownで書けます" id="markdown" class="materialize-textarea active nippo-input" >{ this.body }</textarea>
-          <label for="markdown">本文</label>
+          <textarea id="markdown" class="materialize-textarea active nippo-input" >{ this.body }</textarea>
+          <label for="markdown">本文 (HTML / Markdown)</label>
         </div>
         <div class="col m6 hide-on-small-only">
           <div id="md2html" class="markdown-body" />
@@ -104,11 +104,15 @@
 
     nippoSaveDone(id) {
       self.id = id;
-      Materialize.toast('保存しました', 5000);
+      Materialize.toast('ローカル データベースに保存しました', 5000);
+
+      if(localStorage.autoSyncRemoteDatabase) {
+        EventWorker.event.trigger('syncExportDB:raise', localStorage.e2eEncPassword);
+      }
     }
 
     nippoSaveError() {
-      Materialize.toast('失敗しました', 5000);
+      Materialize.toast('ローカル データベースへの保存に失敗しました', 5000);
     }
 
     getNippoDone(nippo) {
@@ -118,12 +122,15 @@
       self.body = nippo.body;
       EventWorker.event.trigger('md2html:raise', self.body);
       self.update();
-      $('.nippo-input').trigger('keydown');
+      Materialize.updateTextFields();
+      $('#title').trigger('keydown');
+      $('#date').trigger('keydown');
+      $('#markdown').trigger('keydown');
       Materialize.updateTextFields();
     }
 
     getNippoError() {
-      Materialize.toast('失敗しました', 5000);
+      Materialize.toast('ローカル データベースの取得に失敗しました', 5000);
     }
 
     hookCtrlS(event) {
@@ -135,12 +142,22 @@
       }
     }
 
+    exportRemoteDBDone() {
+      Materialize.toast('リモート データベースにエクスポートしました', 5000);
+    }
+
+    exportRemoteDBError() {
+      Materialize.toast('リモート データベースへのエクスポートに失敗しました', 5000);
+    }
+
     dispose() {
       EventWorker.event.off('md2html:done', self.md2htmlDone);
       EventWorker.event.off('nippoSave:done', self.nippoSaveDone);
       EventWorker.event.off('nippoSave:error', self.nippoSaveError);
       EventWorker.event.off('nippoGet:done', self.getNippoDone);
       EventWorker.event.off('nippoGet:error', self.getNippoError);
+      EventWorker.event.off('syncExportDB:done', self.exportRemoteDBDone);
+      EventWorker.event.off('syncExportDB:error', self.exportRemoteDBError);
       $('.nippo-input').off('keyup', self.onInput);
       $('#save-button').off('click', self.nippoSaveExec);
       $(window).off('keydown', self.hookCtrlS);
@@ -171,6 +188,8 @@
       EventWorker.event.on('nippoSave:error', self.nippoSaveError);
       EventWorker.event.on('nippoGet:done', self.getNippoDone);
       EventWorker.event.on('nippoGet:error', self.getNippoError);
+      EventWorker.event.on('syncExportDB:done', self.exportRemoteDBDone);
+      EventWorker.event.on('syncExportDB:error', self.exportRemoteDBError);
       $('.nippo-input').on('keyup', self.onInput);
       $('#save-button').on('click', self.nippoSaveExec);
       $(window).on('keydown', self.hookCtrlS);

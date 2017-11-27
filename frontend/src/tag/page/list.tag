@@ -112,18 +112,38 @@
     }
 
     errorList() {
-      Materialize.toast('失敗しました', 5000);
+      Materialize.toast('ローカル データベースの取得に失敗しました', 5000);
     }
+
+    importRemoteDBDone() {
+      Materialize.toast('リモート データベースからインポートしました', 5000);
+      self.updatePaginate();
+    }
+
+    importRemoteDBError() {
+      Materialize.toast('リモート データベースのインポートに失敗しました', 5000);
+    }
+
+    this.on('before-mount', () => {
+      if(localStorage.autoSyncRemoteDatabase) {
+        EventWorker.event.trigger('syncImportDB:raise', localStorage.e2eEncPassword);
+      }
+    });
 
     this.on('mount', () => {
       EventWorker.event.on('nippoList:done', self.updateList);
       EventWorker.event.on('nippoList:error', self.errorList);
       EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
+      EventWorker.event.on('syncImportDB:done', self.importRemoteDBDone);
+      EventWorker.event.on('syncImportDB:error', self.importRemoteDBError);
       self.updatePaginate();
     });
 
-    this.on('unmount', () => {
-
+    this.on('before-unmount', () => {
+      EventWorker.event.off('nippoList:done', self.updateList);
+      EventWorker.event.off('nippoList:error', self.errorList);
+      EventWorker.event.off('syncImportDB:done', self.importRemoteDBDone);
+      EventWorker.event.off('syncImportDB:error', self.importRemoteDBError);
     });
   </script>
 </page-list>

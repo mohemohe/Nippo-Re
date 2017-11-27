@@ -17,9 +17,22 @@
           <div class="collection-header"><h4>リモート データベース</h4></div>
           <div class="collection-item row">
             <div class="input-field col s12">
-              <input placeholder="end to end暗号化パスワード" id="e2e-enc-password" type="password">
+              <input id="e2e-enc-password" type="password">
               <label for="e2e-enc-password">end to end暗号化パスワード</label>
             </div>
+          </div>
+          <div class="collection-item">
+            <div class="switch right" style="margin-top:-.25rem">
+              <label>
+                <input type="checkbox" id="auto-export-to-remote-database">
+                <span class="lever"></span>
+              </label>
+            </div>
+            <div>自動でリモート データベースにインポート・エクスポートする</div>
+            <p class="grey-text">
+              ONにすると整合性のために現在のローカル データベースのデータをエクスポートします<br>
+              リモート データベースのデータが必要な場合は先にインポートしてください
+            </p>
           </div>
           <a href="javascript:void(0)" class="collection-item waves-effect waves-teal" onclick="{ importRemoteDBModal }">インポート</a>
           <a href="javascript:void(0)" class="collection-item waves-effect waves-teal" onclick="{ exportRemoteDBModal }">エクスポート</a>
@@ -39,6 +52,15 @@
       <button class="modal-action modal-close waves-effect waves-green btn-flat" onclick="{ modalPositiveFunction }">{ modalPositiveText }</button>
       <!--<button class="modal-action modal-close waves-effect waves-green btn-flat">OK</button>-->
     </div>
+  </div>
+
+  <div class="switch">
+    <label>
+      Off
+      <input type="checkbox">
+      <span class="lever"></span>
+      On
+    </label>
   </div>
 
   <style>
@@ -197,6 +219,18 @@ end to end暗号化のパスワードが設定されている場合は、エク�
 
     }
 
+    onInput(event) {
+      localStorage.e2eEncPassword = $('#e2e-enc-password').val();
+    }
+
+    onChange(event) {
+      const checked = event.target.checked;
+      localStorage.autoSyncRemoteDatabase = checked;
+      if(checked) {
+        self.exportRemoteDB();
+      }
+    }
+
     this.on('mount', () => {
       EventWorker.event.on('nippoImport:done', self.importLocalDBDone);
       EventWorker.event.on('nippoImport:error', self.importLocalDBError);
@@ -205,10 +239,19 @@ end to end暗号化のパスワードが設定されている場合は、エク�
       EventWorker.event.on('syncImportDB:error', self.importRemoteDBError);
       EventWorker.event.on('syncExportDB:done', self.exportRemoteDBDone);
       EventWorker.event.on('syncExportDB:error', self.exportRemoteDBError);
+      $('#e2e-enc-password').on('keyup', self.onInput);
+      $('#auto-export-to-remote-database').on('change', self.onChange);
       $('.modal').modal();
+
+      $('#e2e-enc-password').val(localStorage.e2eEncPassword);
+      document.querySelector('#auto-export-to-remote-database').checked = localStorage.autoSyncRemoteDatabase;
+
+      Materialize.updateTextFields();
+      $('#e2e-enc-password').trigger('keydown');
+      Materialize.updateTextFields();
     });
 
-    this.on('unmount', () => {
+    this.on('before-unmount', () => {
       EventWorker.event.off('nippoImport:done', self.importLocalDBDone);
       EventWorker.event.off('nippoImport:error', self.importLocalDBError);
       EventWorker.event.off('nippoExport:error', self.exportLocalDBError);
