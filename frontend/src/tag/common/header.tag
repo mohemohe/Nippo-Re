@@ -6,7 +6,7 @@
 
           <ul class="left">
             <li>
-              <a id="header-antergos-jp-logo-link" href="#/" class="brand-logo">
+              <a id="header-logo-link" href="#/" class="brand-logo">
                 <img src="/images/nippore-logo-white.png" alt="Nippo:Re">
               </a>
             </li>
@@ -55,9 +55,22 @@
       max-height: 64px;
     }
 
+    @media (max-width: 600px) {
+      nav {
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+      }
+
+      .brand-logo {
+        max-height: 56px;
+      }
+    }
+
+
     .brand-logo > * {
       padding: 0.666rem;
-      max-height: 64px;
+      max-height: inherit;
     }
 
     #account-dropdown {
