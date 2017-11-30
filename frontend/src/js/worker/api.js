@@ -3,6 +3,7 @@ import axios from 'axios';
 import pako from "pako";
 import aesjs from 'aes-js';
 import sha256 from 'js-sha256';
+import moment from 'moment';
 import { EventWorker } from '../eventWorker';
 import { IndexedDb } from "../indexedDb";
 
@@ -61,11 +62,21 @@ export function apiSignup(username, password) {
 
 export function apiRefreshToken() {
   const lastTokenRefresh = localStorage.lastTokenRefresh;
-  if(lastTokenRefresh && (parseInt(lastTokenRefresh, 10) + 60 * 60 * 24) > new Date().getTime()) {
-    EventWorker.event.trigger('apiRefreshToken:done');
-    return Promise.resolve(JSON.parse(localStorage.auth_info));
-  }
+  if(lastTokenRefresh) {
+    const lastTokenRefreshDate = moment(new Date(parseInt(localStorage.lastTokenRefresh, 10)));
+    const tokenExpire = lastTokenRefreshDate.add(1, 'd');
 
+    const now = moment();
+    const needToRefresh = now.isAfter(tokenExpire);
+    console.log(
+      'accessToken expire:', tokenExpire,
+      'currentTime:', now,
+      'need to refresh token:', needToRefresh);
+    if (needToRefresh) {
+      EventWorker.event.trigger('apiRefreshToken:done');
+      return Promise.resolve(JSON.parse(localStorage.auth_info));
+    }
+  }
   const authInfo = JSON.parse(localStorage.auth_info);
 
   return axios.post('/auth/refresh-token', authInfo).then(res => {
