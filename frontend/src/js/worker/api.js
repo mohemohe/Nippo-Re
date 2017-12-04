@@ -72,7 +72,7 @@ export function apiRefreshToken() {
       'accessToken expire:', tokenExpire,
       'currentTime:', now,
       'need to refresh token:', needToRefresh);
-    if (needToRefresh) {
+    if (!needToRefresh) {
       EventWorker.event.trigger('apiRefreshToken:done');
       return Promise.resolve(JSON.parse(localStorage.auth_info));
     }
