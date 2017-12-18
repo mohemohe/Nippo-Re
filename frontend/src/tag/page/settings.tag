@@ -234,12 +234,13 @@ end to end暗号化のパスワードが設定されている場合は、エク�
       $('#auto-export-to-remote-database').on('change', self.onChange);
       $('.modal').modal();
 
-      $('#e2e-enc-password').val(localStorage.e2eEncPassword);
-      document.querySelector('#auto-export-to-remote-database').checked = localStorage.autoSyncRemoteDatabase;
-
-      Materialize.updateTextFields();
       $('#e2e-enc-password').trigger('keydown');
-      Materialize.updateTextFields();
+
+      $('#e2e-enc-password').val(localStorage.e2eEncPassword);
+      const checkbox = document.querySelector('#auto-export-to-remote-database');
+      if (localStorage.autoSyncRemoteDatabase && JSON.parse(localStorage.autoSyncRemoteDatabase)) {
+        checkbox.checked = true;
+      }
     });
 
     this.on('before-unmount', () => {

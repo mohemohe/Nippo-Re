@@ -122,11 +122,9 @@
       self.body = nippo.body;
       EventWorker.event.trigger('md2html:raise', self.body);
       self.update();
-      Materialize.updateTextFields();
       $('#title').trigger('keydown');
       $('#date').trigger('keydown');
       $('#markdown').trigger('keydown');
-      Materialize.updateTextFields();
     }
 
     getNippoError() {
