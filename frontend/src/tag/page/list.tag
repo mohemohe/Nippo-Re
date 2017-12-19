@@ -125,7 +125,7 @@
     }
 
     this.on('before-mount', () => {
-      if(localStorage.autoSyncRemoteDatabase && JSON.parse(localStorage.autoSyncRemoteDatabase)) {
+      if(localStorage.auth_info && localStorage.autoSyncRemoteDatabase && JSON.parse(localStorage.autoSyncRemoteDatabase)) {
         EventWorker.event.trigger('syncImportDB:raise', localStorage.e2eEncPassword);
       }
     });
