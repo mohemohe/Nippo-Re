@@ -40,6 +40,35 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col s12">
+        <div class="collection">
+          <div class="collection-header"><h4>アカウント パスワード</h4></div>
+          <div class="collection-item">
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password" type="password" class="validate">
+                <label for="password">パスワード</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password2" type="password" class="validate">
+                <label for="password2">パスワード（確認）</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn waves-effect waves-light right" onclick="{ updatePassword }">変更
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="modal" class="modal modal-fixed-footer">
@@ -201,6 +230,31 @@ end to end暗号化のパスワードが設定されている場合は、エク�
       self.openModal();
     }
 
+    updatePassword() {
+      const password = $("#password").val();
+      const confirmPassword = $("#password2").val();
+
+      if (password === "") {
+        Materialize.toast('空のパスワードは設定できません', 5000);
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        Materialize.toast('パスワードが一致していません', 5000);
+        return;
+      }
+
+      EventWorker.event.trigger('updatePassword:raise', password);
+    }
+
+    updatePasswordDone() {
+      Materialize.toast('パスワードを変更しました', 5000);
+    }
+
+    updatePasswordError() {
+      Materialize.toast('パスワードの変更に失敗しました', 5000);
+    }
+
     openModal() {
       self.update();
       $('#modal').modal('open');
@@ -230,6 +284,8 @@ end to end暗号化のパスワードが設定されている場合は、エク�
       EventWorker.event.on('syncImportDB:error', self.importRemoteDBError);
       EventWorker.event.on('syncExportDB:done', self.exportRemoteDBDone);
       EventWorker.event.on('syncExportDB:error', self.exportRemoteDBError);
+      EventWorker.event.on('updatePassword:done', self.updatePasswordDone);
+      EventWorker.event.on('updatePassword:error', self.updatePasswordError);
       $('#e2e-enc-password').on('keyup', self.onInput);
       $('#auto-export-to-remote-database').on('change', self.onChange);
       $('.modal').modal();
@@ -251,6 +307,8 @@ end to end暗号化のパスワードが設定されている場合は、エク�
       EventWorker.event.off('syncImportDB:error', self.importRemoteDBError);
       EventWorker.event.off('syncExportDB:done', self.exportRemoteDBDone);
       EventWorker.event.off('syncExportDB:error', self.exportRemoteDBError);
+      EventWorker.event.off('updatePassword:done', self.updatePasswordDone);
+      EventWorker.event.off('updatePassword:error', self.updatePasswordError);
     });
   </script>
 </page-settings>

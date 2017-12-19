@@ -1,6 +1,6 @@
 import { md2html } from './md2html';
 import { nippoSave, nippoList, nippoGet, nippoImport, nippoExport } from "./nippo";
-import { apiLogin, apiLogout, apiSignup, apiRefreshToken, apiGetUserName, syncImportDB, syncExportDB } from "./api";
+import { apiLogin, apiLogout, apiSignup, apiRefreshToken, apiGetUserName, updatePassword, syncImportDB, syncExportDB } from "./api";
 
 export {
   md2html,
@@ -14,6 +14,7 @@ export {
   apiSignup,
   apiRefreshToken,
   apiGetUserName,
+  updatePassword,
   syncImportDB,
   syncExportDB,
 };

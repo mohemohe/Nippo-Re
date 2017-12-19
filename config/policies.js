@@ -49,5 +49,6 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
 
+  UserController: ['verifyToken', 'ensureToken'],
   SyncController: ['verifyToken', 'ensureToken'],
 };

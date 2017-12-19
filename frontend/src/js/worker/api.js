@@ -116,6 +116,26 @@ export function apiGetUserName() {
   });
 }
 
+export function updatePassword(password) {
+  apiRefreshToken().then(() => {
+    return axios.post('/user/password', {
+      password,
+    }, {
+      headers: {
+        'Authorization': `Bearer ${JSON.parse(localStorage.auth_info).access_token}`,
+      },
+    });
+  }).then(res => {
+    if (res.status === 200) {
+      EventWorker.event.trigger('updatePassword:done');
+    } else {
+      EventWorker.event.trigger('updatePassword:error');
+    }
+  }).catch(e => {
+    EventWorker.event.trigger('updatePassword:error');
+  });
+}
+
 export function syncImportDB(e2eEncPassword) {
   apiRefreshToken().then(() => {
     return axios.get('/sync', {

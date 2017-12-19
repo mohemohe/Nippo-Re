@@ -1,10 +1,3 @@
-/**
- * SyncController
- *
- * @description :: Server-side logic for managing syncs
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
- */
-
 module.exports = {
   download: async (req, res) => {
 	  const username = req.access_token.username;

@@ -46,6 +46,8 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  'POST /user/password': 'UserController.password',
+
   'GET /sync': 'SyncController.download',
   'POST /sync': 'SyncController.upload',
 };
