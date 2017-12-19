@@ -297,6 +297,8 @@ end to end暗号化のパスワードが設定されている場合は、エク�
       if (localStorage.autoSyncRemoteDatabase && JSON.parse(localStorage.autoSyncRemoteDatabase)) {
         checkbox.checked = true;
       }
+
+      Materialize.updateTextFields();
     });
 
     this.on('before-unmount', () => {
