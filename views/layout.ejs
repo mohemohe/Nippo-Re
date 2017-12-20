@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.9.0/github-markdown.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
     <link rel="stylesheet" href="//cdn.plusminus.io/css/webkoruri/20140628/webkoruri-force.css">
+    <link rel="stylesheet" href="./styles/global.css?v=<%=global.currentGitCommitHash%>">
 
     <link rel="prefetch" href="./images/nippore-logo-white.png">
     <link rel="prefetch" href="./images/nippore-logo-dark.png">
@@ -25,6 +26,9 @@
     <%- body %>
 
     <!--<script src="/js/dependencies/sails.io.js" defer="defer"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/prism.min.js" defer="defer"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/CodeFlask.js/0.2.0/codeflask.min.js" defer="defer"></script>
+
     <% if (sails.config.environment === 'development') { %>
     <script src="//<%=req.host%>:<%=sails.config.webpack.server.port%>/bundle.js"></script>
     <% } else { %>

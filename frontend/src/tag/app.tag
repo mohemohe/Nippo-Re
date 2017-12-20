@@ -7,11 +7,7 @@
 
   <style>
     app {
-      display: flex;
-      -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      min-height: 100vh;
+      height: 100vh;
     }
 
     app > * {
@@ -19,8 +15,12 @@
     }
 
     main {
-      flex: 1;
-      margin-top: 1rem;
+      position: absolute;
+      top: 0;
+      height: 100vh;
+      width: 100vw;
+      padding-top: 78px;
+      box-sizing: border-box;
     }
   </style>
 
