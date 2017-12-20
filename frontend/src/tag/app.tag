@@ -25,6 +25,8 @@
   </style>
 
   <script>
+    import {EventWorker} from "../js/eventWorker";
+
     const self = this;
 
     EventWorker.event.on('hashChanged', (hash) => {
@@ -34,6 +36,17 @@
     EventWorker.event.on('apiLogin:done', () => {
       self.update();
       location.href = '#/';
+    });
+
+    EventWorker.event.on('showToast', (text, timeout) => {
+      const $toastContent = $(`<span>${text}</span>`).add($('<button class="btn-flat toast-action" onclick="EventWorker.event.trigger(`closeToast`, this)">閉じる</button>'));
+      return Materialize.toast($toastContent, timeout);
+    });
+
+    EventWorker.event.on('closeToast', (event) => {
+      const toastElement = event.parentElement;
+      const toastInstance = toastElement.M_Toast;
+      toastInstance.remove();
     });
 
     onRefreshTokenError() {

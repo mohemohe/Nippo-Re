@@ -131,11 +131,11 @@
     }
 
     importLocalDBDone() {
-      Materialize.toast('JSONをインポートしました', 5000);
+      EventWorker.event.trigger('showToast', 'JSONをインポートしました', 5000);
     }
 
     importLocalDBError() {
-      Materialize.toast('JSONのインポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'JSONのインポートに失敗しました', 5000);
     }
 
     exportLocalDBModal() {
@@ -155,7 +155,7 @@
     }
 
     exportLocalDBError() {
-      Materialize.toast('JSONのエクスポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'JSONのエクスポートに失敗しました', 5000);
     }
 
     resetLocalDBModal() {
@@ -187,11 +187,11 @@ end to end暗号化のパスワードが設定されている場合は、イン�
     }
 
     importRemoteDBDone() {
-      Materialize.toast('リモート データベースからインポートしました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースからインポートしました', 5000);
     }
 
     importRemoteDBError() {
-      Materialize.toast('リモート データベースのインポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースのインポートに失敗しました', 5000);
     }
 
     exportRemoteDBModal() {
@@ -212,11 +212,11 @@ end to end暗号化のパスワードが設定されている場合は、エク�
     }
 
     exportRemoteDBDone() {
-      Materialize.toast('リモート データベースにエクスポートしました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースにエクスポートしました', 5000);
     }
 
     exportRemoteDBError() {
-      Materialize.toast('リモート データベースへのエクスポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースへのエクスポートに失敗しました', 5000);
     }
 
     resetRemoteDBModal() {
@@ -235,12 +235,12 @@ end to end暗号化のパスワードが設定されている場合は、エク�
       const confirmPassword = $("#password2").val();
 
       if (password === "") {
-        Materialize.toast('空のパスワードは設定できません', 5000);
+        EventWorker.event.trigger('showToast', '空のパスワードは設定できません', 5000);
         return;
       }
 
       if (password !== confirmPassword) {
-        Materialize.toast('パスワードが一致していません', 5000);
+        EventWorker.event.trigger('showToast', 'パスワードが一致していません', 5000);
         return;
       }
 
@@ -248,11 +248,11 @@ end to end暗号化のパスワードが設定されている場合は、エク�
     }
 
     updatePasswordDone() {
-      Materialize.toast('パスワードを変更しました', 5000);
+      EventWorker.event.trigger('showToast', 'パスワードを変更しました', 5000);
     }
 
     updatePasswordError() {
-      Materialize.toast('パスワードの変更に失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'パスワードの変更に失敗しました', 5000);
     }
 
     openModal() {

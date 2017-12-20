@@ -112,16 +112,16 @@
     }
 
     errorList() {
-      Materialize.toast('ローカル データベースの取得に失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'ローカル データベースの取得に失敗しました', 5000);
     }
 
     importRemoteDBDone() {
-      Materialize.toast('リモート データベースからインポートしました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースからインポートしました', 5000);
       self.updatePaginate();
     }
 
     importRemoteDBError() {
-      Materialize.toast('リモート データベースのインポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースのインポートに失敗しました', 5000);
     }
 
     this.on('before-mount', () => {

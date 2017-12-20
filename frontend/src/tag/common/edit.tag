@@ -82,16 +82,24 @@
     }
 
     nippoSaveExec() {
+      let error = false;
       if(self.title === '') {
-        return Materialize.toast('タイトルを入力してください', 5000);
+        error = true;
+        EventWorker.event.trigger('showToast', 'タイトルを入力してください', 5000);
       }
 
       if(self.date === '') {
-        return Materialize.toast('日付を入力してください', 5000);
+        error = true;
+        EventWorker.event.trigger('showToast', '日付を入力してください', 5000);
       }
 
       if(self.body === '') {
-        return Materialize.toast('本文を入力してください', 5000);
+        error = true;
+        EventWorker.event.trigger('showToast', '本文を入力してください', 5000);
+      }
+
+      if (error) {
+        return;
       }
 
       EventWorker.event.trigger('nippoSave:raise', {
@@ -104,7 +112,7 @@
 
     nippoSaveDone(id) {
       self.id = id;
-      Materialize.toast('ローカル データベースに保存しました', 5000);
+      EventWorker.event.trigger('showToast', 'ローカル データベースに保存しました', 5000);
 
       if(localStorage.autoSyncRemoteDatabase) {
         EventWorker.event.trigger('syncExportDB:raise', localStorage.e2eEncPassword);
@@ -112,7 +120,7 @@
     }
 
     nippoSaveError() {
-      Materialize.toast('ローカル データベースへの保存に失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'ローカル データベースへの保存に失敗しました', 5000);
     }
 
     getNippoDone(nippo) {
@@ -131,7 +139,7 @@
     }
 
     getNippoError() {
-      Materialize.toast('ローカル データベースの取得に失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'ローカル データベースの取得に失敗しました', 5000);
     }
 
     hookCtrlS(event) {
@@ -144,11 +152,11 @@
     }
 
     exportRemoteDBDone() {
-      Materialize.toast('リモート データベースにエクスポートしました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースにエクスポートしました', 5000);
     }
 
     exportRemoteDBError() {
-      Materialize.toast('リモート データベースへのエクスポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースへのエクスポートに失敗しました', 5000);
     }
 
     dispose() {
