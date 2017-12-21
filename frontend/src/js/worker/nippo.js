@@ -30,7 +30,8 @@ export function nippoList(offset, limit) {
 export function nippoGet(id) {
   IndexedDb.dexie.nippo.get(id).then((result) => {
     EventWorker.event.trigger('nippoGet:done', result);
-  }).catch(() => {
+  }).catch((e) => {
+    console.error(e);
     EventWorker.event.trigger('nippoGet:error');
   });
 }

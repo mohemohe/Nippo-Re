@@ -13,12 +13,9 @@
           <label for="date"></label>
         </div>
       </div>
-      <div class="row">
-        <div class="input-field col m6 s12">
-          <textarea id="markdown" class="materialize-textarea active nippo-input" >{ this.body }</textarea>
-          <label for="markdown">本文 (HTML / Markdown)</label>
-        </div>
-        <div class="col m6 hide-on-small-only">
+      <div id="markdown-content" class="row">
+        <div id="editor" class="col m6 s12"></div>
+        <div id="md2html-wrapper" class="col m6 hide-on-small-only">
           <div id="md2html" class="markdown-body" />
         </div>
       </div>
@@ -30,6 +27,37 @@
   </div>
 
   <style>
+    common-edit > row {
+      height: 100%;
+    }
+
+    common-edit > row > form {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    #markdown-content {
+      height: calc(100vh - 180px);
+    }
+
+    #markdown-content > div {
+      margin-top: 0;
+    }
+
+    #editor {
+      height: 100%;
+    }
+
+    #md2html-wrapper {
+      height: 100%;
+      overflow: scroll;
+    }
+
+    #md2html {
+      padding: 0;
+    }
+
     #save-button {
       position: fixed;
       bottom: 1em;
@@ -62,6 +90,8 @@
 
   <script>
     import {EventWorker} from "../../js/eventWorker";
+    import ace from 'brace'
+    import 'brace/mode/markdown'
 
     const self = this;
     const today = new Date();
@@ -71,10 +101,16 @@
     this.date = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
     this.body = '';
 
-    onInput() {
-      self.title = $('#title').val();
-      self.date = $('#date').val();
-      self.body = $('#markdown').val();
+    this.editor = null;
+
+    onInput(e) {
+      if (e.type && e.type.toLowerCase() === 'keyup') {
+        self.title = $('#title').val();
+        self.date = $('#date').val();
+      } else {
+        self.body = self.editor.getValue();
+      }
+
       EventWorker.event.trigger('md2html:raise', self.body);
     }
 
@@ -129,13 +165,13 @@
       self.title = nippo.title;
       self.date = `${nippo.date.substring(0, 4)}/${nippo.date.substring(4, 6)}/${nippo.date.substring(6, 8)}`;
       self.body = nippo.body;
+      self.editor.setValue(self.body);
       EventWorker.event.trigger('md2html:raise', self.body);
       self.update();
 
       Materialize.updateTextFields();
       $('#title').trigger('keydown');
       $('#date').trigger('keydown');
-      $('#markdown').trigger('keydown');
       Materialize.updateTextFields();
     }
 
@@ -171,9 +207,22 @@
       $('.nippo-input').off('keyup', self.onInput);
       $('#save-button').off('click', self.nippoSaveExec);
       $(window).off('keydown', self.hookCtrlS);
+
+      document.querySelector('html').classList.remove('edit');
     }
 
     this.on('mount', () => {
+      document.querySelector('html').classList.add('edit');
+
+      self.editor = $('#editor');
+      self.editor = ace.edit('editor');
+      self.editor.$blockScrolling = Infinity;
+      self.editor.setFontSize(14);
+      self.editor.getSession().setMode('ace/mode/markdown');
+      self.editor.getSession().setUseWrapMode(true);
+      self.editor.getSession().setTabSize(2);
+      self.editor.getSession().on('change', self.onInput);
+
       $('.datepicker').pickadate({
         monthsFull:  ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
         monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],

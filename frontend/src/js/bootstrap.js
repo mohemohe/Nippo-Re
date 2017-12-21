@@ -20,7 +20,7 @@ import '../tag/page/signup.tag';
 import { EventWorker } from './eventWorker';
 import { IndexedDb } from './indexedDb';
 
-global.Materialize = Materialize;
+window.Materialize = Materialize;
 
 EventWorker.initialize();
 IndexedDb.initialize();
