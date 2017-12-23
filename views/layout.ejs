@@ -11,10 +11,14 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-loading-bar.min.css" />
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.9.0/github-markdown.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css" />
     <link rel="stylesheet" href="//cdn.plusminus.io/css/webkoruri/20140628/webkoruri-force.css">
     <link rel="stylesheet" href="./styles/global.css?v=<%=global.currentGitCommitHash%>">
 
@@ -30,5 +34,7 @@
     <% } else { %>
     <script src="/js/bundle.js?v=<%=global.currentGitCommitHash%>" defer="defer"></script>
     <% } %>
+
+    <script src="https://use.fontawesome.com/b519d10c67.js" async="async"></script>
   </body>
 </html>

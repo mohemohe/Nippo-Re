@@ -1,7 +1,7 @@
 <common-edit>
   <div class="row">
     <form class="col s12">
-      <div class="row">
+      <div class="row" style="margin-bottom:0">
         <div class="input-field col m9 s12">
           <i class="material-icons prefix">title</i>
           <input id="title" type="text" class="validate active nippo-input" value="{ this.title }">
@@ -14,10 +14,7 @@
         </div>
       </div>
       <div id="markdown-content" class="row">
-        <div id="editor" class="col m6 s12"></div>
-        <div id="md2html-wrapper" class="col m6 hide-on-small-only">
-          <div id="md2html" class="markdown-body" />
-        </div>
+        <textarea id="simplemde"></textarea>
       </div>
     </form>
 
@@ -39,59 +36,65 @@
 
     #markdown-content {
       height: calc(100vh - 180px);
+      position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
-    #markdown-content > div {
-      margin-top: 0;
-    }
-
-    #editor {
+    #simplemde {
       height: 100%;
     }
 
-    #md2html-wrapper {
-      height: 100%;
-      overflow: scroll;
+    #markdown-content .CodeMirror {
+      flex: 1;
     }
 
-    #md2html {
-      padding: 0;
+    #markdown-content .editor-toolbar.fullscreen,
+    #markdown-content .CodeMirror-fullscreen,
+    #markdown-content .editor-preview-side {
+      position: absolute !important;
+    }
+
+    #markdown-content .fa-arrows-alt {
+      display: none;
+    }
+
+    #markdown-content .editor-toolbar {
+      border-top: 1px solid #ddd !important;
+      border-left: 1px solid #ddd !important;
+      border-right: 1px solid #ddd !important;
+      border-top-left-radius: 4px !important;
+      border-top-right-radius: 4px !important;
+    }
+
+    #markdown-content .editor-preview-side {
+      border-left: 0 !important;
     }
 
     #save-button {
       position: fixed;
       bottom: 1em;
       right: 1em;
+      z-index: 9999;
     }
 
     input, textarea {
       font-size: 16px !important;
     }
 
-    .markdown-body {
-      box-sizing: border-box;
-      min-width: 200px;
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 45px;
-      font-family: "Koruri";
-    }
-
-    .markdown-body ul li {
-      list-style: outside !important;
-    }
-
     @media (max-width: 767px) {
-      .markdown-body {
-        padding: 15px;
+      #markdown-content .CodeMirror {
+        width: 100% !important;
+      }
+
+      #markdown-content .editor-preview-side {
+        display: none;
       }
     }
   </style>
 
   <script>
     import {EventWorker} from "../../js/eventWorker";
-    import ace from 'brace'
-    import 'brace/mode/markdown'
 
     const self = this;
     const today = new Date();
@@ -101,17 +104,17 @@
     this.date = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
     this.body = '';
 
-    this.editor = null;
+    this.simplemde = null;
 
     onInput(e) {
       if (e.type && e.type.toLowerCase() === 'keyup') {
         self.title = $('#title').val();
         self.date = $('#date').val();
       } else {
-        self.body = self.editor.getValue();
+        self.body = self.simplemde.value();
       }
 
-      EventWorker.event.trigger('md2html:raise', self.body);
+//      EventWorker.event.trigger('md2html:raise', self.body);
     }
 
     md2htmlDone(html) {
@@ -165,8 +168,8 @@
       self.title = nippo.title;
       self.date = `${nippo.date.substring(0, 4)}/${nippo.date.substring(4, 6)}/${nippo.date.substring(6, 8)}`;
       self.body = nippo.body;
-      self.editor.setValue(self.body);
-      EventWorker.event.trigger('md2html:raise', self.body);
+      self.simplemde.value(self.body);
+//      EventWorker.event.trigger('md2html:raise', self.body);
       self.update();
 
       Materialize.updateTextFields();
@@ -214,14 +217,25 @@
     this.on('mount', () => {
       document.querySelector('html').classList.add('edit');
 
-      self.editor = $('#editor');
-      self.editor = ace.edit('editor');
-      self.editor.$blockScrolling = Infinity;
-      self.editor.setFontSize(14);
-      self.editor.getSession().setMode('ace/mode/markdown');
-      self.editor.getSession().setUseWrapMode(true);
-      self.editor.getSession().setTabSize(2);
-      self.editor.getSession().on('change', self.onInput);
+      self.simplemde = new window.SimpleMDE({
+        autofocus: true,
+        autosave: {
+          enabled: false,
+        },
+        element: document.querySelector('#simplemde'),
+        initialValue: "",
+        placeholder: "MarkdownまたはHTMLで入力できます",
+        renderingConfig: {
+          codeSyntaxHighlighting: true,
+        },
+        spellChecker: false,
+        status: false,
+        tabSize: 4,
+//        toolbar: true,
+        toolbarTips: false,
+      });
+      self.simplemde.toggleSideBySide();
+      self.simplemde.codemirror.on('change', self.onInput);
 
       $('.datepicker').pickadate({
         monthsFull:  ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
