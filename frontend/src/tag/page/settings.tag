@@ -131,11 +131,11 @@
     }
 
     importLocalDBDone() {
-      EventWorker.event.trigger('showToast', 'JSONをインポートしました', 5000);
+      EventWorker.event.trigger('showToast', 'JSONをインポートしました');
     }
 
     importLocalDBError() {
-      EventWorker.event.trigger('showToast', 'JSONのインポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'JSONのインポートに失敗しました');
     }
 
     exportLocalDBModal() {
@@ -155,7 +155,7 @@
     }
 
     exportLocalDBError() {
-      EventWorker.event.trigger('showToast', 'JSONのエクスポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'JSONのエクスポートに失敗しました');
     }
 
     resetLocalDBModal() {
@@ -187,11 +187,11 @@ end to end暗号化のパスワードが設定されている場合は、イン�
     }
 
     importRemoteDBDone() {
-      EventWorker.event.trigger('showToast', 'リモート データベースからインポートしました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースからインポートしました');
     }
 
     importRemoteDBError() {
-      EventWorker.event.trigger('showToast', 'リモート データベースのインポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースのインポートに失敗しました');
     }
 
     exportRemoteDBModal() {
@@ -212,11 +212,11 @@ end to end暗号化のパスワードが設定されている場合は、エク�
     }
 
     exportRemoteDBDone() {
-      EventWorker.event.trigger('showToast', 'リモート データベースにエクスポートしました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースにエクスポートしました');
     }
 
     exportRemoteDBError() {
-      EventWorker.event.trigger('showToast', 'リモート データベースへのエクスポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースへのエクスポートに失敗しました');
     }
 
     resetRemoteDBModal() {
@@ -235,12 +235,12 @@ end to end暗号化のパスワードが設定されている場合は、エク�
       const confirmPassword = $("#password2").val();
 
       if (password === "") {
-        EventWorker.event.trigger('showToast', '空のパスワードは設定できません', 5000);
+        EventWorker.event.trigger('showToast', '空のパスワードは設定できません');
         return;
       }
 
       if (password !== confirmPassword) {
-        EventWorker.event.trigger('showToast', 'パスワードが一致していません', 5000);
+        EventWorker.event.trigger('showToast', 'パスワードが一致していません');
         return;
       }
 
@@ -248,11 +248,11 @@ end to end暗号化のパスワードが設定されている場合は、エク�
     }
 
     updatePasswordDone() {
-      EventWorker.event.trigger('showToast', 'パスワードを変更しました', 5000);
+      EventWorker.event.trigger('showToast', 'パスワードを変更しました');
     }
 
     updatePasswordError() {
-      EventWorker.event.trigger('showToast', 'パスワードの変更に失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'パスワードの変更に失敗しました');
     }
 
     openModal() {

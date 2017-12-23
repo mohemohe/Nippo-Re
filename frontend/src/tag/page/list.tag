@@ -112,18 +112,18 @@
     }
 
     errorList() {
-      EventWorker.event.trigger('showToast', 'ローカル データベースの取得に失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'ローカル データベースの取得に失敗しました');
     }
 
     importRemoteDBDone() {
-      EventWorker.event.trigger('showToast', 'リモート データベースからインポートしました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースからインポートしました');
       EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
 
       self.updatePaginate();
     }
 
     importRemoteDBError() {
-      EventWorker.event.trigger('showToast', 'リモート データベースのインポートに失敗しました', 5000);
+      EventWorker.event.trigger('showToast', 'リモート データベースのインポートに失敗しました');
     }
 
     this.on('before-mount', () => {

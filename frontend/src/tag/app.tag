@@ -38,7 +38,7 @@
       location.href = '#/';
     });
 
-    EventWorker.event.on('showToast', (text, timeout) => {
+    EventWorker.event.on('showToast', (text, timeout = 4000) => {
       const $toastContent = $(`<span>${text}</span>`).add($('<button class="btn-flat toast-action" onclick="EventWorker.event.trigger(`closeToast`, this)">閉じる</button>'));
       return Materialize.toast($toastContent, timeout);
     });
