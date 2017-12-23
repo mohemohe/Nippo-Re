@@ -234,7 +234,11 @@
 //        toolbar: true,
         toolbarTips: false,
       });
-      self.simplemde.toggleSideBySide();
+      try {
+        self.simplemde.toggleSideBySide();
+      } catch (e) {
+        console.error('error on auto split view', e);
+      }
       self.simplemde.codemirror.on('change', self.onInput);
 
       $('.datepicker').pickadate({
