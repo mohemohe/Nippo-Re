@@ -25,10 +25,6 @@
   <body>
     <%- body %>
 
-    <!--<script src="/js/dependencies/sails.io.js" defer="defer"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/prism.min.js" defer="defer"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/CodeFlask.js/0.2.0/codeflask.min.js" defer="defer"></script>
-
     <% if (sails.config.environment === 'development') { %>
     <script src="//<%=req.host%>:<%=sails.config.webpack.server.port%>/bundle.js"></script>
     <% } else { %>
