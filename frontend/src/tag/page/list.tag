@@ -117,6 +117,8 @@
 
     importRemoteDBDone() {
       EventWorker.event.trigger('showToast', 'リモート データベースからインポートしました', 5000);
+      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
+
       self.updatePaginate();
     }
 
@@ -133,9 +135,9 @@
     this.on('mount', () => {
       EventWorker.event.on('nippoList:done', self.updateList);
       EventWorker.event.on('nippoList:error', self.errorList);
-      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
       EventWorker.event.on('syncImportDB:done', self.importRemoteDBDone);
       EventWorker.event.on('syncImportDB:error', self.importRemoteDBError);
+      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
       self.updatePaginate();
     });
 
