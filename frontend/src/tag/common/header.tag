@@ -45,6 +45,12 @@
   </header>
 
   <style>
+    header,
+    header nav {
+      position: fixed;
+      z-index: 99999;
+    }
+
     nav {
       height: 64px !important;
       min-height: 64px !important;

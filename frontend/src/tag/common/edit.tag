@@ -24,18 +24,22 @@
   </div>
 
   <style>
-    common-edit > row {
-      height: 100%;
-    }
-
-    common-edit > row > form {
+    :scope form {
       display: flex;
       flex-direction: column;
-      height: 100%;
+      height: 100vh;
+      padding-top: calc(64px + 0.5rem) !important;
+      position: absolute;
+      top: 0;
+    }
+
+    :scope form .row {
+      width: 100%;
     }
 
     #markdown-content {
-      height: calc(100vh - 180px);
+      flex: 1;
+      width: 100%;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -47,6 +51,7 @@
     }
 
     #markdown-content .CodeMirror {
+      min-height: 0 !important;
       flex: 1;
     }
 
