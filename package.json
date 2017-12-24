@@ -46,6 +46,7 @@
     "sails": "~0.12.14",
     "sails-disk": "~0.10.9",
     "sails-hook-authorization": "^2.0.0-0",
+    "sails-hook-requestlogger": "^1.0.0",
     "sails-hook-webpack2": "handhead/sails-hook-webpack2",
     "sails-mongo": "^0.12.2",
     "uglify-es-webpack-plugin": "^0.10.0",

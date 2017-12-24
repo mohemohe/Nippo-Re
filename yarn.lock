@@ -883,6 +883,12 @@ basic-auth@~1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-1.0.4.tgz#030935b01de7c9b94a824b29f3fccb750d3a5290"
 
+basic-auth@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-2.0.0.tgz#015db3f353e02e56377755f962742e8981e7bbba"
+  dependencies:
+    safe-buffer "5.1.1"
+
 batch@0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/batch/-/batch-0.5.3.tgz#3f3414f380321743bfc1042f9a83ff1d5824d464"
@@ -4137,6 +4143,16 @@ mongodb@2.1.20:
     mongodb-core "1.3.20"
     readable-stream "1.0.31"
 
+morgan@^1.5.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.9.0.tgz#d01fa6c65859b76fcf31b3cb53a3821a311d8051"
+  dependencies:
+    basic-auth "~2.0.0"
+    debug "2.6.9"
+    depd "~1.1.1"
+    on-finished "~2.3.0"
+    on-headers "~1.0.1"
+
 morgan@~1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.6.1.tgz#5fd818398c6819cba28a7cd6664f292fe1c0bbf2"
@@ -5486,6 +5502,12 @@ sails-hook-orm@~1.0.9:
     prompt "0.2.14"
     rttc "~9.3.0"
     waterline "~0.11.0"
+
+sails-hook-requestlogger@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/sails-hook-requestlogger/-/sails-hook-requestlogger-1.0.0.tgz#c84cfaaa0f22911534e98b8704db53bc05d7a05a"
+  dependencies:
+    morgan "^1.5.0"
 
 sails-hook-sockets@^0.13.9:
   version "0.13.13"
