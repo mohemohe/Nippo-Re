@@ -1,6 +1,8 @@
 html,
 body {
-  overflow: auto !important;
+  width: 100vw;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 html.edit,
