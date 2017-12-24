@@ -62,7 +62,6 @@
     }
 
     :scope #upper-container .col {
-      display: flex;
       flex: 1;
     }
 
@@ -73,7 +72,7 @@
     }
 
     :scope #upper-container,
-    :scope #upper-container .row{
+    :scope #search {
       margin-bottom: 0 !important;
     }
 
@@ -81,7 +80,7 @@
       width: 100%;
     }
 
-    :scope #upper-container #search-input-field .input-field .material-icons {
+    :scope .material-icons.prefix {
       line-height: 43px;
     }
   </style>
