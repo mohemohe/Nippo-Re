@@ -106,8 +106,7 @@
     changePaginateIndex(event) {
       self.paginateIndex = parseInt(event.target.innerHTML, 10);
       self.updatePaginate();
-
-      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
+      self.raiseUpdateList();
     }
 
     minusPaginateIndex() {
@@ -115,15 +114,13 @@
         self.paginateIndex--;
       }
       self.updatePaginate();
-
-      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
+      self.raiseUpdateList();
     }
 
     plusPaginateIndex() {
       self.paginateIndex++;
       self.updatePaginate();
-
-      EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
+      self.raiseUpdateList();
     }
 
     errorList() {
@@ -141,9 +138,17 @@
       EventWorker.event.trigger('showToast', 'リモート データベースのインポートに失敗しました');
     }
 
-    onSearch() {
+    raiseUpdateList() {
       const keyword = $('#search').val();
-      EventWorker.event.trigger('nippoSearch:raise', keyword, self.offset, self.limit);
+      if (keyword && keyword === "") {
+        EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
+      } else {
+        EventWorker.event.trigger('nippoSearch:raise', keyword, self.offset, self.limit);
+      }
+    }
+
+    onSearch() {
+      self.raiseUpdateList();
     }
 
     this.on('before-mount', () => {
