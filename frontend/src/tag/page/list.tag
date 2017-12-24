@@ -58,20 +58,20 @@
     }
 
     :scope #upper-container {
-      display: flex;
+      margin-top: 1rem;
     }
 
-    :scope #upper-container .col {
-      flex: 1;
+    :scope #upper-container form {
+      margin-top: -1rem;
     }
 
-    :scope #upper-container .pagination {
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
+    /*:scope #upper-container .pagination {*/
+      /*display: flex;*/
+      /*align-items: center;*/
+      /*flex: 1;*/
+      /*margin: 0;*/
+    /*}*/
 
-    :scope #upper-container,
     :scope #search {
       margin-bottom: 0 !important;
     }
