@@ -39,7 +39,7 @@
     });
 
     EventWorker.event.on('showToast', (text, timeout = 4000) => {
-      const $toastContent = $(`<span>${text}</span>`).add($('<button class="btn-flat toast-action" onclick="EventWorker.event.trigger(`closeToast`, this)"><i class="material-icons left">close</i></button>'));
+      const $toastContent = $(`<span>${text}</span>`).add($('<button class="btn-flat toast-action" onclick="EventWorker.event.trigger(`closeToast`, this)"><i class="material-icons left" style="color:rgb(211,99,103)">close</i></button>'));
       return Materialize.toast($toastContent, timeout);
     });
 
