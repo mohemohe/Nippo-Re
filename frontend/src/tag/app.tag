@@ -21,6 +21,7 @@
       width: 100vw;
       padding-top: 78px;
       box-sizing: border-box;
+      overflow-x: hidden;
     }
   </style>
 
