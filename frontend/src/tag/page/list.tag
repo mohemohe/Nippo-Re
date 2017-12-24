@@ -1,7 +1,7 @@
 <page-list>
   <div class="container">
     <div class="row">
-      <div class="col s12">
+      <div class="col s12 m7">
         <ul class="pagination">
           <li class="waves-effect" onclick="{ minusPaginateIndex }"><a href="javascript:void(0);"><i class="material-icons">chevron_left</i></a></li>
           <span each="{ paginate }">
@@ -10,6 +10,15 @@
           <li class="waves-effect" onclick="{ plusPaginateIndex }"><a><i class="material-icons">chevron_right</i></a></li>
         </ul>
       </div>
+      <form class="col s12 m5 right">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">search</i>
+            <input id="search" type="text" class="validate">
+            <label for="search">検索</label>
+          </div>
+        </div>
+      </form>
     </div>
 
     <div class="row">
@@ -44,6 +53,12 @@
       </div>
     </div>
   </div>
+
+  <style>
+    :scope input {
+      font-size: 16px !important;
+    }
+  </style>
 
   <script>
     const self = this;
@@ -126,6 +141,11 @@
       EventWorker.event.trigger('showToast', 'リモート データベースのインポートに失敗しました');
     }
 
+    onSearch() {
+      const keyword = $('#search').val();
+      EventWorker.event.trigger('nippoSearch:raise', keyword, self.offset, self.limit);
+    }
+
     this.on('before-mount', () => {
       if(localStorage.auth_info && localStorage.autoSyncRemoteDatabase && JSON.parse(localStorage.autoSyncRemoteDatabase)) {
         EventWorker.event.trigger('syncImportDB:raise', localStorage.e2eEncPassword);
@@ -138,6 +158,9 @@
       EventWorker.event.on('syncImportDB:done', self.importRemoteDBDone);
       EventWorker.event.on('syncImportDB:error', self.importRemoteDBError);
       EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
+
+      $('#search').on('keyup', self.onSearch);
+
       self.updatePaginate();
     });
 

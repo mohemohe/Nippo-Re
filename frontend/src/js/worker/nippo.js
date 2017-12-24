@@ -27,6 +27,20 @@ export function nippoList(offset, limit) {
   });
 }
 
+export function nippoSearch(keyword, offset, limit) {
+  if (keyword === "") {
+    return nippoList(offset, limit);
+  }
+
+  IndexedDb.dexie.nippo.orderBy('date').reverse().filter(_ => {
+    return _.title.indexOf(keyword) > -1 || _.body.indexOf(keyword) > -1;
+  }).offset(offset).limit(limit).toArray().then((result) => {
+    EventWorker.event.trigger('nippoList:done', result);
+  }).catch(() => {
+    EventWorker.event.trigger('nippoList:error');
+  });
+}
+
 export function nippoGet(id) {
   IndexedDb.dexie.nippo.get(id).then((result) => {
     EventWorker.event.trigger('nippoGet:done', result);
