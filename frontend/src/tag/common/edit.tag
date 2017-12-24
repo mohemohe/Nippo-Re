@@ -105,12 +105,50 @@
     const self = this;
     const today = new Date();
 
+    this.touchY = 0;
+
     this.id = null;
     this.title = '';
     this.date = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
     this.body = '';
 
     this.simplemde = null;
+
+    // https://qiita.com/nandai@github/items/d821df077fcf2e8854dd
+    onTouchStart(e) {
+      self.touchY = e.touches[0].screenY;
+    }
+
+    // https://qiita.com/nandai@github/items/d821df077fcf2e8854dd
+    onTouchMove(e) {
+      let el = e.target;
+      const moveY = e.touches[0].screenY;
+      let noScroll = true;
+
+      while (el !== null)
+      {
+        if (el.offsetHeight < el.scrollHeight)
+        {
+          if (self.touchY < moveY && el.scrollTop === 0) {
+            break;
+          }
+
+          if (self.touchY > moveY && el.scrollTop === el.scrollHeight - el.offsetHeight) {
+            break;
+          }
+
+          noScroll = false;
+          break;
+        }
+        el = el.parentElement;
+      }
+
+      if (noScroll) {
+        e.preventDefault();
+      }
+
+      self.touchY = moveY;
+    }
 
     onInput(e) {
       if (e.type && e.type.toLowerCase() === 'keyup') {
@@ -217,6 +255,11 @@
       $('#save-button').off('click', self.nippoSaveExec);
       $(window).off('keydown', self.hookCtrlS);
 
+      if (window.navigator.standalone) {
+        $('body').off('touchstart', self.onTouchStart);
+        $('body').off('touchmove', self.onTouchMove);
+      }
+
       document.querySelector('html').classList.remove('edit');
     }
 
@@ -276,6 +319,11 @@
       $('.nippo-input').on('keyup', self.onInput);
       $('#save-button').on('click', self.nippoSaveExec);
       $(window).on('keydown', self.hookCtrlS);
+
+      if (window.navigator.standalone) {
+        $('body').on('touchstart', self.onTouchStart);
+        $('body').on('touchmove', self.onTouchMove);
+      }
 
       const id = parseInt(self.parent.opts.nippoId, 10);
       if(!isNaN(id)) {

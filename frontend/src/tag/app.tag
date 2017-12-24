@@ -22,6 +22,11 @@
       padding-top: 78px;
       box-sizing: border-box;
       overflow-x: hidden;
+      -webkit-overflow-scrolling: touch !important;
+    }
+
+    html.edit main {
+      -webkit-overflow-scrolling: auto !important;
     }
   </style>
 
