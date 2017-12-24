@@ -11,12 +11,10 @@
         </ul>
       </div>
       <form class="col s12 m5 right">
-        <div class="row">
-          <div class="input-field col s12">
-            <i class="material-icons prefix">search</i>
-            <input id="search" type="text" class="validate">
-            <label for="search">検索</label>
-          </div>
+        <div id="search-input-field" class="input-field">
+          <i class="material-icons prefix">search</i>
+          <input id="search" type="text" class="validate">
+          <label for="search">検索</label>
         </div>
       </form>
     </div>
@@ -79,7 +77,11 @@
       margin-bottom: 0 !important;
     }
 
-    :scope .input-field .material-icons {
+    :scope #upper-container #search-input-field {
+      width: 100%;
+    }
+
+    :scope #upper-container #search-input-field .input-field .material-icons {
       line-height: 43px;
     }
   </style>
