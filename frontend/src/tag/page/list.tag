@@ -1,6 +1,6 @@
 <page-list>
   <div class="container">
-    <div class="row">
+    <div id="upper-container" class="row">
       <div class="col s12 m7">
         <ul class="pagination">
           <li class="waves-effect" onclick="{ minusPaginateIndex }"><a href="javascript:void(0);"><i class="material-icons">chevron_left</i></a></li>
@@ -57,6 +57,30 @@
   <style>
     :scope input {
       font-size: 16px !important;
+    }
+
+    :scope #upper-container {
+      display: flex;
+    }
+
+    :scope #upper-container .col {
+      display: flex;
+      flex: 1;
+    }
+
+    :scope #upper-container .pagination {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    :scope #upper-container,
+    :scope #upper-container .row{
+      margin-bottom: 0 !important;
+    }
+
+    :scope .input-field .material-icons {
+      line-height: 43px;
     }
   </style>
 
