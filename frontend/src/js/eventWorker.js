@@ -14,10 +14,10 @@ export class EventWorker {
   static register(event, worker) {
     if(typeof worker === typeof '') {
       window.__event.on(event, Worker[worker]);
-      console.log('register worker (string):', event, Worker[worker]);
+      console.info('register worker (string):', event, Worker[worker]);
     } else {
       window.__event.on(event, worker);
-      console.log('register worker (function):', event, worker);
+      console.info('register worker (function):', event, worker);
     }
   }
 

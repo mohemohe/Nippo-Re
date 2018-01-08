@@ -29,7 +29,7 @@ module.exports.auth = {
     payloadProperties: [],
 
     // Time to live for the access token
-    accessTokenTtl: 86400,  // 1 day
+    accessTokenTtl: 600,  // 10 min
 
     // Time to live for the refresh token
     refreshTokenTtl: 2592000, // 30 days

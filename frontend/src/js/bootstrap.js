@@ -6,13 +6,17 @@ import Router from 'riot-router';
 import '../tag/app.tag';
 import '../tag/common/notfound.tag';
 import '../tag/common/header.tag';
+import '../tag/common/footer.tag';
 import '../tag/common/raw.tag';
 import '../tag/common/edit.tag';
+import '../tag/common/termsOfService.tag';
 import '../tag/page/index.tag';
 import '../tag/page/create.tag';
 import '../tag/page/edit.tag';
+import '../tag/page/share.tag';
 import '../tag/page/list.tag';
-import '../tag/page/about.tag';
+import '../tag/page/about/index.tag';
+import '../tag/page/about/builtWith.tag';
 import '../tag/page/settings.tag';
 import '../tag/page/login.tag';
 import '../tag/page/signup.tag';
@@ -36,6 +40,7 @@ router.routes([
   new Router.Route({path: '/nippo/list', tag: 'page-list'}),
   new Router.Route({path: '/nippo/create', tag: 'page-create'}),
   new Router.Route({path: '/nippo/edit/:nippoId', tag: 'page-edit'}),
+  new Router.Route({path: '/nippo/share/:username/:hash', tag: 'page-share'}),
   new Router.Route({path: '/login', tag: 'page-login'}),
   new Router.Route({path: '/signup', tag: 'page-signup'}),
 ]);

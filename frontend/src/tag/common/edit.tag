@@ -1,25 +1,66 @@
 <common-edit>
   <div class="row">
     <form class="col s12">
-      <div class="row" style="margin-bottom:0">
-        <div class="input-field col m9 s12">
-          <i class="material-icons prefix">title</i>
-          <input id="title" type="text" class="validate active nippo-input" value="{ this.title }">
-          <label for="title">タイトル</label>
+      <div id="nippo-meta" class="row" style="margin-bottom:0">
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field col m9 s12">
+              <i class="material-icons prefix">title</i>
+              <input id="title" type="text" class="validate active nippo-input" value="{ this.title }">
+              <label for="title">タイトル</label>
+            </div>
+            <div class="input-field col m3 s12">
+              <i class="material-icons prefix">today</i>
+              <input value="{ this.date }" id="date" type="text" class="datepicker active nippo-input">
+              <label for="date"></label>
+            </div>
+          </div>
         </div>
-        <div class="input-field col m3 s12">
-          <i class="material-icons prefix">today</i>
-          <input value="{ this.date }" id="date" type="text" class="datepicker active nippo-input">
-          <label for="date"></label>
-        </div>
+
       </div>
-      <div id="markdown-content" class="row">
+      <div id="markdown-content" class="row { this.zenMode ? 'zen' : '' }">
         <textarea id="simplemde"></textarea>
       </div>
     </form>
 
-    <div id="save-button">
-      <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">save</i></a>
+    <div id="save-button" class="fixed-action-btn vertical">
+      <a class="btn-floating btn-large red">
+        <i class="large material-icons">menu</i>
+      </a>
+      <ul>
+        <li><button class="btn-floating waves-effect waves-light red darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="保存" onclick="{ this.nippoSaveExec }"><i class="material-icons">save</i></button></li>
+        <li><button class="btn-floating waves-effect waves-light red darken-2 modal-trigger tooltipped" data-position="left" data-delay="50" data-tooltip="共有" data-target="share-option-modal"><i class="material-icons">share</i></button></li>
+        <li><button class="btn-floating waves-effect waves-light red darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="Zenモード" onclick="{ this.toggleZenMode }"><i class="material-icons">{ this.zenMode ? 'layers_clear' : 'layers' }</i></button></li>
+      </ul>
+    </div>
+  </div>
+  <div id="share-option-modal" class="modal bottom-sheet">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col s12">
+          <div onclick="{ this.onClickShareCheckbox }">
+            <input id="is-shared" type="checkbox" class="filled-in" checked="{ this.isShared }"/>
+            <label for="is-shared">この日暮里を共有する （保存時に反映されます）</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input disabled="{ disabled: !this.isShared }" id="shared-password" type="password" class="active nippo-input" value="{ this.sharedPassword }">
+          <label for="shared-password">共有用エンドツーエンド暗号化パスワード</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col l10 m9 s12">
+          <input disabled="disabled" id="shared-permalink" type="text" class="validate active" value="{ this.sharedPermalink }">
+          <label for="shared-permalink">共有用パーマリンク</label>
+        </div>
+        <div class="col l2 m3 s12">
+          <button id="copy-permalink" class="btn waves-effect waves-light right { disabled: !this.isShared }" onclick="{ this.onClickCopyPermalinkButton }">コピー
+            <i class="material-icons left">content_copy</i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -35,6 +76,19 @@
 
     :scope form .row {
       width: 100%;
+    }
+
+    #nippo-meta .col {
+      padding: 0;
+    }
+
+    .modal-content input,
+    #nippo-meta input {
+      margin-bottom: 0 !important;
+    }
+
+    .modal-content #copy-permalink {
+      top: 20px;
     }
 
     #markdown-content {
@@ -77,11 +131,21 @@
       border-left: 0 !important;
     }
 
+    #markdown-content.zen {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      margin: 0;
+      z-index: 99999;
+    }
+
     #save-button {
       position: fixed;
       bottom: 1em;
       right: 1em;
-      z-index: 9999;
+      z-index: 99999;
     }
 
     input, textarea {
@@ -111,8 +175,13 @@
     this.title = '';
     this.date = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
     this.body = '';
+    this.isShared = false;
+    this.sharedPassword = '';
+    this.sharedHash = ''
+    this.sharedPermalink = '';
 
     this.simplemde = null;
+    this.zenMode = false;
 
     // https://qiita.com/nandai@github/items/d821df077fcf2e8854dd
     onTouchStart(e) {
@@ -154,6 +223,7 @@
       if (e.type && e.type.toLowerCase() === 'keyup') {
         self.title = $('#title').val();
         self.date = $('#date').val();
+        self.sharedPassword = $('#shared-password').val();
       } else {
         self.body = self.simplemde.value();
       }
@@ -182,6 +252,11 @@
         EventWorker.event.trigger('showToast', '本文を入力してください');
       }
 
+      if (localStorage.e2eEncPassword && localStorage.e2eEncPassword !== '' && self.sharedPassword === '') {
+        error = true;
+        EventWorker.event.trigger('showToast', '共有用エンドツーエンド暗号化パスワードを入力してください');
+      }
+
       if (error) {
         return;
       }
@@ -191,15 +266,26 @@
         title: self.title,
         date: self.date.split('/').join(''),
         body: self.body,
+        isShared: self.isShared,
+        sharedPassword: self.sharedPassword,
+        sharedHash: self.sharedHash,
       });
     }
 
-    nippoSaveDone(id) {
+    nippoSaveDone(id, dbObj) {
       self.id = id;
+      console.log('onNippoSaveDone:', dbObj);
       EventWorker.event.trigger('showToast', 'ローカル データベースに保存しました');
 
       if(localStorage.autoSyncRemoteDatabase) {
-        EventWorker.event.trigger('syncExportDB:raise', localStorage.e2eEncPassword);
+        EventWorker.event.trigger('updateRemoteNippo:raise', {
+          id: self.id,
+          title: self.title,
+          date: self.date.split('/').join(''),
+          body: self.body,
+          isShared: self.isShared,
+          sharedPassword: self.sharedPassword,
+        }, localStorage.e2eEncPassword);
       }
     }
 
@@ -212,14 +298,24 @@
       self.title = nippo.title;
       self.date = `${nippo.date.substring(0, 4)}/${nippo.date.substring(4, 6)}/${nippo.date.substring(6, 8)}`;
       self.body = nippo.body;
+      self.isShared = nippo.isShared || false;
+      self.sharedPassword = nippo.sharedPassword || '';
+      self.sharedHash = nippo.sharedHash || '';
+      if (self.sharedHash && self.sharedHash !== '' && localStorage.username) {
+        self.sharedPermalink = `${location.origin}${location.pathname}#/nippo/share/${localStorage.username}/${self.sharedHash}`;
+      }
       self.simplemde.value(self.body);
 //      EventWorker.event.trigger('md2html:raise', self.body);
       self.update();
 
-      Materialize.updateTextFields();
+      if (Materialize && Materialize.updateTextFields) {
+        Materialize.updateTextFields();
+      }
       $('#title').trigger('keydown');
       $('#date').trigger('keydown');
-      Materialize.updateTextFields();
+      if (Materialize && Materialize.updateTextFields) {
+        Materialize.updateTextFields();
+      }
     }
 
     getNippoError() {
@@ -235,12 +331,72 @@
       }
     }
 
-    exportRemoteDBDone() {
+    exportRemoteDBDone(remoteNippoObj) {
+      console.log(remoteNippoObj);
+      if (remoteNippoObj && remoteNippoObj.sharedHash && remoteNippoObj.sharedHash !== '') {
+        self.sharedHash = remoteNippoObj.sharedHash;
+        if (localStorage.username) {
+          self.sharedPermalink = `${location.origin}${location.pathname}#/nippo/share/${localStorage.username}/${self.sharedHash}`;
+        }
+
+        self.update();
+        if (Materialize && Materialize.updateTextFields) {
+          Materialize.updateTextFields();
+        }
+        EventWorker.event.trigger('nippoUpdate:raise', {
+          id: remoteNippoObj.nippoId,
+          sharedHash: remoteNippoObj.sharedHash,
+        });
+      }
       EventWorker.event.trigger('showToast', 'リモート データベースにエクスポートしました');
     }
 
     exportRemoteDBError() {
       EventWorker.event.trigger('showToast', 'リモート データベースへのエクスポートに失敗しました');
+    }
+
+    toggleZenMode() {
+      self.zenMode = !self.zenMode;
+      self.update();
+    }
+
+    onClickShareCheckbox() {
+      self.isShared = document.querySelector('#is-shared').checked;
+    }
+
+    onClickCopyPermalinkButton() {
+      const permalink = self.sharedPermalink;
+      if (!permalink || permalink === '') {
+        EventWorker.event.trigger('showToast', '共有用パーマリンクは保存後に生成されます');
+        return;
+      }
+
+      if (!document.execCommand) {
+        EventWorker.event.trigger('showToast', 'ブラウザにHTML5 Editing APIが実装されていません');
+        return;
+      }
+
+      const p = document.createElement('p');
+      document.body.appendChild(p);
+      p.innerHTML = permalink;
+
+      let result;
+      try {
+        const range = document.createRange();
+        range.selectNode(p);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        result = document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+      } finally {
+        document.body.removeChild(p);
+      }
+
+      if (result) {
+        EventWorker.event.trigger('showToast', '共有用パーマリンクをコピーしました');
+      } else {
+        EventWorker.event.trigger('showToast', '共有用パーマリンクのコピーに失敗しました');
+      }
     }
 
     dispose() {
@@ -252,7 +408,6 @@
       EventWorker.event.off('syncExportDB:done', self.exportRemoteDBDone);
       EventWorker.event.off('syncExportDB:error', self.exportRemoteDBError);
       $('.nippo-input').off('keyup', self.onInput);
-      $('#save-button').off('click', self.nippoSaveExec);
       $(window).off('keydown', self.hookCtrlS);
 
       if (window.navigator.standalone) {
@@ -280,7 +435,6 @@
         spellChecker: false,
         status: false,
         tabSize: 4,
-//        toolbar: true,
         toolbarTips: false,
       });
       try {
@@ -309,6 +463,9 @@
         }
       });
 
+      $('.modal').modal();
+      $('.tooltipped').tooltip();
+
       EventWorker.event.on('md2html:done', self.md2htmlDone);
       EventWorker.event.on('nippoSave:done', self.nippoSaveDone);
       EventWorker.event.on('nippoSave:error', self.nippoSaveError);
@@ -317,7 +474,6 @@
       EventWorker.event.on('syncExportDB:done', self.exportRemoteDBDone);
       EventWorker.event.on('syncExportDB:error', self.exportRemoteDBError);
       $('.nippo-input').on('keyup', self.onInput);
-      $('#save-button').on('click', self.nippoSaveExec);
       $(window).on('keydown', self.hookCtrlS);
 
       if (window.navigator.standalone) {

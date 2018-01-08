@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { EventWorker } from '../eventWorker';
 import { IndexedDb } from '../indexedDb';
 
@@ -6,16 +7,37 @@ export function nippoSave(args) {
     title: args.title,
     date: args.date.split('-').join(''),
     body: args.body,
+    isShared: args.isShared,
+    sharedPassword: args.sharedPassword,
     updated_at: new Date()
   };
-  if(args.id !== null) {
+  if (args.id !== null) {
     dbObj.id = args.id;
   }
+  if (args.sharedHash && args.sharedHash !== '') {
+    dbObj.sharedHash = args.sharedHash;
+  }
 
-  IndexedDb.dexie.nippo.put(dbObj).then((result) => {
-    EventWorker.event.trigger('nippoSave:done', result);
+  IndexedDb.dexie.nippo.put(dbObj).then((id) => {
+    console.log('onNippoSave:', id);
+    EventWorker.event.trigger('nippoSave:done', id, dbObj);
   }).catch(() => {
     EventWorker.event.trigger('nippoSave:error');
+  });
+}
+
+export function nippoUpdate(args) {
+  const id = args.id;
+  delete args.id;
+
+  IndexedDb.dexie.nippo.get(id).then((result) => {
+    return result;
+  }).then(nippo => {
+    return _.merge(nippo, args);
+  }).then(updateObj => {
+    return IndexedDb.dexie.nippo.update(id, updateObj);
+  }).catch((e) => {
+    console.error(e);
   });
 }
 
@@ -28,12 +50,25 @@ export function nippoList(offset, limit) {
 }
 
 export function nippoSearch(keyword, offset, limit) {
-  if (keyword === "") {
+  if (keyword === "" || keyword === '　') {
     return nippoList(offset, limit);
   }
 
+  const replacedKeyword = keyword.replace(/　/g, ' ');
+  const keywordArray = replacedKeyword.split(' ').filter(value => {
+    return value !== '';
+  });
+
+  const isContain = (ary, target) => {
+    const resultArray = ary.map(value => {
+       return target.indexOf(value) > -1;
+    });
+
+    return resultArray.indexOf(false) === -1;
+  };
+
   IndexedDb.dexie.nippo.orderBy('date').reverse().filter(_ => {
-    return _.title.indexOf(keyword) > -1 || _.body.indexOf(keyword) > -1;
+    return isContain(keywordArray, `${_.title} ${_.body}`);
   }).offset(offset).limit(limit).toArray().then((result) => {
     EventWorker.event.trigger('nippoList:done', result);
   }).catch(() => {

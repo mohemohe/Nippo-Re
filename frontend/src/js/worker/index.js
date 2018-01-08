@@ -1,10 +1,11 @@
 import { md2html } from './md2html';
-import { nippoSave, nippoList, nippoSearch, nippoGet, nippoImport, nippoExport } from "./nippo";
-import { apiLogin, apiLogout, apiSignup, apiRefreshToken, apiGetUserName, updatePassword, syncImportDB, syncExportDB } from "./api";
+import { nippoSave, nippoUpdate, nippoList, nippoSearch, nippoGet, nippoImport, nippoExport } from "./nippo";
+import { apiLogin, apiLogout, apiSignup, apiRefreshToken, apiGetUserName, updatePassword, syncImportDB, syncExportDB, updateRemoteNippo, getSharedNippo } from "./api";
 
 export {
   md2html,
   nippoSave,
+  nippoUpdate,
   nippoList,
   nippoSearch,
   nippoGet,
@@ -18,4 +19,6 @@ export {
   updatePassword,
   syncImportDB,
   syncExportDB,
+  updateRemoteNippo,
+  getSharedNippo,
 };

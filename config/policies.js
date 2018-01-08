@@ -50,5 +50,6 @@ module.exports.policies = {
 	// }
 
   UserController: ['verifyToken', 'ensureToken'],
-  SyncController: ['verifyToken', 'ensureToken'],
+  SyncV1Controller: ['verifyToken', 'ensureToken'],
+  SyncV2Controller: ['verifyToken', 'ensureToken'],
 };

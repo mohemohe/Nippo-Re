@@ -86,6 +86,8 @@
   </style>
 
   <script>
+    import {EventWorker} from "../../js/eventWorker";
+
     const self = this;
 
     this.paginateIndex = 1;
@@ -178,7 +180,12 @@
 
     this.on('before-mount', () => {
       if(localStorage.auth_info && localStorage.autoSyncRemoteDatabase && JSON.parse(localStorage.autoSyncRemoteDatabase)) {
-        EventWorker.event.trigger('syncImportDB:raise', localStorage.e2eEncPassword);
+        if (localStorage.syncApiVersion && JSON.parse(localStorage.syncApiVersion) === 2) {
+          EventWorker.event.trigger('syncImportDB:raise', localStorage.e2eEncPassword);
+        } else {
+          EventWorker.event.trigger('showToast', 'リモート データベースAPIが変更されました。');
+          EventWorker.event.trigger('showToast', '再度インポート・エクスポートを行ってください。');
+        }
       }
     });
 

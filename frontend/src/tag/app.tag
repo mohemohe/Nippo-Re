@@ -5,6 +5,8 @@
     <route/>
   </main>
 
+  <common-footer/>
+
   <style>
     app {
       height: 100vh;
@@ -31,9 +33,13 @@
   </style>
 
   <script>
+    import moment from 'moment';
     import {EventWorker} from "../js/eventWorker";
 
     const self = this;
+
+    this.lastToastMessage = '';
+    this.lastToastTime = moment();
 
     EventWorker.event.on('hashChanged', (hash) => {
       console.info(hash);
@@ -45,6 +51,12 @@
     });
 
     EventWorker.event.on('showToast', (text, timeout = 4000) => {
+      if (self.lastToastMessage === text && moment(self.lastToastTime).add(50, 'ms') > moment()) {
+        return;
+      }
+      self.lastToastMessage = text;
+      self.lastToastTime = moment();
+
       const $toastContent = $(`<span>${text}</span>`).add($('<button class="btn-flat toast-action" onclick="EventWorker.event.trigger(`closeToast`, this)"><i class="material-icons left" style="color:rgb(211,99,103)">close</i></button>'));
       return Materialize.toast($toastContent, timeout);
     });

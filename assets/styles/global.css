@@ -11,3 +11,15 @@ html.edit body {
   width: 100vw;
   overflow: hidden !important;
 }
+
+.material-tooltip {
+  z-index: 99999 !important;
+}
+
+.modal-overlay {
+  z-index: 100000 !important;
+}
+
+.modal.open {
+  z-index: 100001 !important;
+}

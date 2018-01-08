@@ -7,7 +7,7 @@
           <ul class="left">
             <li>
               <a id="header-logo-link" href="#/" class="brand-logo">
-                <img src="/images/nippore-logo-white.png" alt="Nippo:Re">
+                <img src="/images/nippore-logo-white.png" alt="Nippo:Re"><span class="brand-logo-version">( openβ.1 )</span>
               </a>
             </li>
           </ul>
@@ -59,6 +59,7 @@
 
     .brand-logo {
       max-height: 64px;
+      overflow: hidden;
     }
 
     @media (max-width: 600px) {
@@ -73,10 +74,25 @@
       }
     }
 
-
     .brand-logo > * {
       padding: 0.666rem;
       max-height: inherit;
+    }
+
+    .brand-logo-version {
+      display: inline-block;
+      position: absolute;
+      top: calc(64px / 2 - 12px + 2px);
+      right: 1rem;
+      padding: 0;
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .brand-logo-version {
+        top: calc(56px / 2 - 10px + 2px);
+        font-size: 10px;
+      }
     }
 
     #account-dropdown {

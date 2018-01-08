@@ -298,7 +298,9 @@ end to end暗号化のパスワードが設定されている場合は、エク�
         checkbox.checked = true;
       }
 
-      Materialize.updateTextFields();
+      if (Materialize && Materialize.updateTextFields) {
+        Materialize.updateTextFields();
+      }
     });
 
     this.on('before-unmount', () => {

@@ -46,8 +46,28 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  // old api -----------------------------------------------------------------
+
   'POST /user/password': 'UserController.password',
 
-  'GET /sync': 'SyncController.download',
-  'POST /sync': 'SyncController.upload',
+  'GET /sync': 'SyncV1Controller.download',
+  'POST /sync': 'SyncV1Controller.upload',
+
+  'GET /api/v1/sync': 'SyncV1Controller.download',
+  'POST /api/v1/sync': 'SyncV1Controller.upload',
+
+  // -------------------------------------------------------------------------
+
+  'POST /api/v2/auth/login': 'AuthController.login',
+  'POST /api/v2/auth/signup': 'AuthController.signup',
+  'POST /api/v2/auth/token/refresh': 'AuthController.refreshToken',
+  //'GET /api/v2/auth/verify-email/:token': 'AuthController.verifyEmail',
+  'GET /api/v2/user': 'AuthController.me',
+  'POST /api/v2/user/password': 'UserController.password',
+
+  'GET /api/v2/sync': 'SyncV2Controller._import',
+  'POST /api/v2/sync': 'SyncV2Controller._export',
+  'POST /api/v2/sync/:id': 'SyncV2Controller._update',
+
+  'GET /api/v2/share/:user/:hash': 'ShareController.get',
 };
