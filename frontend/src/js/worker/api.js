@@ -198,6 +198,7 @@ export function syncImportDB(e2eEncPassword) {
     return IndexedDb.import(importText);
   }).then(result => {
     if (result) {
+      localStorage.syncApiVersion = 2;
       EventWorker.event.trigger('syncImportDB:done');
     } else {
       EventWorker.event.trigger('syncImportDB:error');
