@@ -252,7 +252,7 @@
         EventWorker.event.trigger('showToast', '本文を入力してください');
       }
 
-      if (localStorage.e2eEncPassword && localStorage.e2eEncPassword !== '' && self.sharedPassword === '') {
+      if (self.isShared && localStorage.e2eEncPassword && localStorage.e2eEncPassword !== '' && self.sharedPassword === '') {
         error = true;
         EventWorker.event.trigger('showToast', '共有用エンドツーエンド暗号化パスワードを入力してください');
       }
