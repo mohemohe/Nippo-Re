@@ -62,6 +62,9 @@
         </div>
       </div>
     </div>
+    <div class="modal-footer">
+      <button class="modal-action modal-close waves-effect waves-green btn-flat">閉じる</button>
+    </div>
   </div>
 
   <style>
