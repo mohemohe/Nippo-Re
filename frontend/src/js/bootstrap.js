@@ -2,6 +2,8 @@ import $ from 'jquery';
 import Materialize from 'materialize-css';
 import riot from 'riot';
 import Router from 'riot-router';
+import isMobile from 'ismobilejs';
+import AppendCss from 'append-css';
 
 import '../tag/app.tag';
 import '../tag/common/notfound.tag';
@@ -30,6 +32,17 @@ EventWorker.initialize();
 IndexedDb.initialize();
 
 document.title = 'Nippo:Re';
+
+if (isMobile.apple.device) {
+  console.log('あ！クソ🍎デバイスでアクセスしてきたな！！！！！！');
+
+  const appendedRules = new AppendCss(`
+    .modal-overlay {
+      display: none !important;
+    }
+  `);
+  appendedRules.enable();
+}
 
 //riot謹製ルーターではなく https://github.com/gabrielmoreira/riot-router を使用
 router.routes([
