@@ -51,6 +51,8 @@ export function apiLogin(username, password) {
 export function apiLogout() {
   localStorage.removeItem('username');
   localStorage.removeItem('auth_info');
+  localStorage.removeItem('lastTokenRefresh');
+
   EventWorker.event.trigger('apiLogout:done');
 }
 
@@ -101,9 +103,11 @@ export function apiRefreshToken() {
 
     localStorage.lastTokenRefresh = new Date().getTime();
 
+    console.log('token refresh: success');
     EventWorker.event.trigger('apiRefreshToken:done');
     return data;
   }).catch(e => {
+    console.log('token refresh: error');
     console.error(e);
     EventWorker.event.trigger('apiRefreshToken:error');
     return null;
@@ -111,12 +115,12 @@ export function apiRefreshToken() {
 }
 
 export function apiGetUserName() {
-  const accessToken = JSON.parse(localStorage.auth_info).access_token;
-
-  axios.get('/api/v2/user', {
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-    },
+  apiRefreshToken().then(authInfo => {
+    return axios.get('/api/v2/user', {
+      headers: {
+        'Authorization': `Bearer ${authInfo.access_token}`,
+      },
+    });
   }).then(res => {
     return res.data;
   }).then(data => {
@@ -128,12 +132,12 @@ export function apiGetUserName() {
 }
 
 export function updatePassword(password) {
-  apiRefreshToken().then(() => {
+  apiRefreshToken().then(authInfo => {
     return axios.post('/api/v2/user/password', {
       password,
     }, {
       headers: {
-        'Authorization': `Bearer ${JSON.parse(localStorage.auth_info).access_token}`,
+        'Authorization': `Bearer ${authInfo.access_token}`,
       },
     });
   }).then(res => {
@@ -149,10 +153,10 @@ export function updatePassword(password) {
 }
 
 export function syncImportDB(e2eEncPassword) {
-  apiRefreshToken().then(() => {
+  apiRefreshToken().then(authInfo => {
     return axios.get('/api/v2/sync', {
       headers: {
-        'Authorization': `Bearer ${JSON.parse(localStorage.auth_info).access_token}`,
+        'Authorization': `Bearer ${authInfo.access_token}`,
       },
     });
   }).then(res => {
@@ -210,7 +214,10 @@ export function syncImportDB(e2eEncPassword) {
 }
 
 export function syncExportDB(e2eEncPassword) {
-  apiRefreshToken().then(() => {
+  let _authInfo;
+  apiRefreshToken().then(authInfo => {
+    _authInfo = authInfo;
+
     return IndexedDb.export();
   }).then(jsonString => {
     const json = JSON.parse(jsonString);
@@ -254,7 +261,7 @@ export function syncExportDB(e2eEncPassword) {
       nippos: json.nippos,
     }, {
       headers: {
-        'Authorization': `Bearer ${JSON.parse(localStorage.auth_info).access_token}`,
+        'Authorization': `Bearer ${_authInfo.access_token}`,
       },
     });
   }).then(res => {
@@ -273,7 +280,10 @@ export function syncExportDB(e2eEncPassword) {
 }
 
 export function updateRemoteNippo(nippoObj, e2eEncPassword) {
-  apiRefreshToken().then(() => {
+  let _authInfo;
+  apiRefreshToken().then(authInfo => {
+    _authInfo = authInfo;
+
     nippoObj.isShared = nippoObj.isShared || false;
     nippoObj.isEncrypted = false;
     if (nippoObj.isShared) {
@@ -306,7 +316,7 @@ export function updateRemoteNippo(nippoObj, e2eEncPassword) {
       nippo: nippoObj,
     }, {
       headers: {
-        'Authorization': `Bearer ${JSON.parse(localStorage.auth_info).access_token}`,
+        'Authorization': `Bearer ${_authInfo.access_token}`,
       },
     });
   }).then(res => {
