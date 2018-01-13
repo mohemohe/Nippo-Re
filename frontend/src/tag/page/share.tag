@@ -60,8 +60,8 @@
       if (!nippo.isEncrypted) {
         EventWorker.event.trigger('md2html:raise', self.nippo.sharedBody);
       } else {
-        self.sharedTitleOrig = self.nippo.sharedTitle;
-        self.sharedBodyOrig = self.nippo.sharedBody;
+        self.sharedTitleOrig = decodeURIComponent(self.nippo.sharedTitle);
+        self.sharedBodyOrig = decodeURIComponent(self.nippo.sharedBody);
 
         $('#password-modal').modal('open');
       }
@@ -88,8 +88,8 @@
       }
 
       const password = $('#shared-password').val();
-      self.nippo.sharedTitle = self.aes256ctrDecrypt(self.sharedTitleOrig, password);
-      self.nippo.sharedBody = self.aes256ctrDecrypt(self.sharedBodyOrig, password);
+      self.nippo.sharedTitle = decodeURIComponent(self.aes256ctrDecrypt(self.sharedTitleOrig, password));
+      self.nippo.sharedBody = decodeURIComponent(self.aes256ctrDecrypt(self.sharedBodyOrig, password));
       self.update();
 
       EventWorker.event.trigger('md2html:raise', self.nippo.sharedBody);

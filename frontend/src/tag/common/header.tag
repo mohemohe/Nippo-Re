@@ -7,7 +7,7 @@
           <ul class="left">
             <li>
               <a id="header-logo-link" href="#/" class="brand-logo">
-                <img src="/images/nippore-logo-white.png" alt="Nippo:Re"><span class="brand-logo-version">( openβ.1 )</span>
+                <img src="/images/nippore-logo-white.png" alt="Nippo:Re"><span class="brand-logo-version">( β.2 )</span>
               </a>
             </li>
           </ul>

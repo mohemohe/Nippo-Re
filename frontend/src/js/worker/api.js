@@ -187,6 +187,9 @@ export function syncImportDB(e2eEncPassword) {
   }).then(nippos => {
     nippos.forEach(nippo => {
       nippo.id = nippo.nippoId;
+      nippo.title = decodeURIComponent(nippo.title);
+      nippo.body = decodeURIComponent(nippo.body);
+
       delete nippo.nippoId;
       delete nippo.isEncrypted;
       delete nippo.sharedTitle;
@@ -202,7 +205,7 @@ export function syncImportDB(e2eEncPassword) {
     return IndexedDb.import(importText);
   }).then(result => {
     if (result) {
-      localStorage.syncApiVersion = 2;
+      localStorage.syncApiVersion = 3;
       EventWorker.event.trigger('syncImportDB:done');
     } else {
       EventWorker.event.trigger('syncImportDB:error');
@@ -226,6 +229,9 @@ export function syncExportDB(e2eEncPassword) {
     return json;
   }).then(json => {
     json.nippos.forEach(n => {
+      n.title = encodeURIComponent(n.title);
+      n.body = encodeURIComponent(n.body);
+
       n.isShared = n.isShared || false;
       n.isEncrypted = false;
       if (n.isShared) {
@@ -283,6 +289,9 @@ export function updateRemoteNippo(nippoObj, e2eEncPassword) {
   let _authInfo;
   apiRefreshToken().then(authInfo => {
     _authInfo = authInfo;
+
+    nippoObj.title = encodeURIComponent(nippoObj.title);
+    nippoObj.body = encodeURIComponent(nippoObj.body);
 
     nippoObj.isShared = nippoObj.isShared || false;
     nippoObj.isEncrypted = false;

@@ -180,11 +180,11 @@
 
     this.on('before-mount', () => {
       if(localStorage.auth_info && localStorage.autoSyncRemoteDatabase && JSON.parse(localStorage.autoSyncRemoteDatabase)) {
-        if (localStorage.syncApiVersion && JSON.parse(localStorage.syncApiVersion) === 2) {
+        if (localStorage.syncApiVersion && JSON.parse(localStorage.syncApiVersion) === 3) {
           EventWorker.event.trigger('syncImportDB:raise', localStorage.e2eEncPassword);
         } else {
           EventWorker.event.trigger('showToast', 'リモート データベースAPIが変更されました。');
-          EventWorker.event.trigger('showToast', '再度インポート・エクスポートを行ってください。');
+          EventWorker.event.trigger('showToast', '再度インポートを行ってください。');
         }
       }
     });
