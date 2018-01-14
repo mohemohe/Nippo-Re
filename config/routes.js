@@ -67,7 +67,8 @@ module.exports.routes = {
 
   'GET /api/v2/sync': 'SyncV2Controller._import',
   'POST /api/v2/sync': 'SyncV2Controller._export',
-  'POST /api/v2/sync/:id': 'SyncV2Controller._update',
+  'PUT /api/v2/sync/:id': 'SyncV2Controller._update',
+  'DELETE /api/v2/sync/:id': 'SyncV2Controller._delete',
 
   'GET /api/v2/share/:user/:hash': 'ShareController.get',
 };

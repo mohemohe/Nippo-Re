@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html prefix="og: http://ogp.me/ns#">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -7,6 +7,14 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="csrf-token" content="<%= _csrf %>">
+    <meta name="description" content="Nippo:ReはAES256bit E2E暗号化によるセキュアなメモ プラットフォームを提供します">
+    <meta property="og:title" content="Nippo:Re" />
+    <meta property="og:site_name" content="Nippo:Re" />
+    <meta property="og:url" content="<%=req.protocol%>://<%=req.host%><%=req.path%>" />
+    <meta property="og:image" content="./images/nippore-square-icon.png" />
+    <meta property="og:description" content="Nippo:ReはAES256bit E2E暗号化によるセキュアなメモ プラットフォームを提供します" />
+    <meta name="twitter:card" content="summary">
+
     <title>Nippo:Re</title>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>

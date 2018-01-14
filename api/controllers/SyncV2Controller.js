@@ -123,5 +123,32 @@ module.exports = {
       });
     }
   },
+
+  _delete: async (req, res) => {
+    const username = req.access_token.username;
+    const id = req.param('id');
+
+    if (isNaN(parseInt(id))) {
+      return res.ok({
+        status: 1,
+        result: 'invalid id',
+      });
+    }
+
+    try {
+      await Nippo.destroy({
+        username,
+        nippoId: id,
+      });
+
+      res.ok({
+        status: 0,
+      });
+    } catch (e) {
+      return res.ok({
+        status: 1,
+      });
+    }
+  },
 };
 

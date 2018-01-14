@@ -146,3 +146,12 @@ export function nippoExport() {
     }
   });
 }
+
+export function nippoDelete(id) {
+  IndexedDb.dexie.nippo.delete(id).then((result) => {
+    EventWorker.event.trigger('nippoDelete:done', result);
+  }).catch((e) => {
+    console.error(e);
+    EventWorker.event.trigger('nippoDelete:error');
+  });
+}

@@ -321,7 +321,7 @@ export function updateRemoteNippo(nippoObj, e2eEncPassword) {
     }
     return nippoObj;
   }).then(nippoObj => {
-    return axios.post(`/api/v2/sync/${nippoObj.id}`, {
+    return axios.put(`/api/v2/sync/${nippoObj.id}`, {
       nippo: nippoObj,
     }, {
       headers: {
@@ -332,14 +332,32 @@ export function updateRemoteNippo(nippoObj, e2eEncPassword) {
     return res.data;
   }).then(data => {
     if (data.status === 0) {
-      EventWorker.event.trigger('syncExportDB:done', data.result);
+      EventWorker.event.trigger('updateRemoteNippo:done', data.result);
     } else {
       throw new Error();
     }
   }).catch(e => {
     console.error(e);
-    EventWorker.event.trigger('syncExportDB:error');
+    EventWorker.event.trigger('updateRemoteNippo:error');
   });
+}
+
+export function deleteRemoteNippo(id) {
+  apiRefreshToken().then(authInfo => {
+    return axios.delete(`/api/v2/sync/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${authInfo.access_token}`,
+      },
+    });
+  }).then(res => {
+    return res.data;
+  }).then(data => {
+    if(data.status && data.status === 0) {
+      EventWorker.event.trigger('deleteRemoteNippo:done');
+    } else {
+      EventWorker.event.trigger('deleteRemoteNippo:error');
+    }
+  })
 }
 
 export function getSharedNippo(username, hash) {
