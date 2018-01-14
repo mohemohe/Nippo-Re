@@ -88,8 +88,16 @@
       }
 
       const password = $('#shared-password').val();
-      self.nippo.sharedTitle = decodeURIComponent(self.aes256ctrDecrypt(self.sharedTitleOrig, password));
-      self.nippo.sharedBody = decodeURIComponent(self.aes256ctrDecrypt(self.sharedBodyOrig, password));
+      self.nippo.sharedTitle = self.aes256ctrDecrypt(self.sharedTitleOrig, password);
+      self.nippo.sharedBody = self.aes256ctrDecrypt(self.sharedBodyOrig, password);
+
+      try {
+        self.nippo.sharedTitle = self.aes256ctrDecrypt(self.sharedTitleOrig, password);
+        self.nippo.sharedBody = self.aes256ctrDecrypt(self.sharedBodyOrig, password);
+      } catch (e) {
+        console.warn(e):
+      }
+
       self.update();
 
       EventWorker.event.trigger('md2html:raise', self.nippo.sharedBody);
