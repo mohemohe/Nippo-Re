@@ -63,7 +63,13 @@
         self.sharedTitleOrig = decodeURIComponent(self.nippo.sharedTitle);
         self.sharedBodyOrig = decodeURIComponent(self.nippo.sharedBody);
 
-        $('#password-modal').modal('open');
+        console.log('self.opts.password', self.opts.password);
+
+        if (self.opts.password && self.opts.password !== '') {
+          self.decode(self.opts.password);
+        } else {
+          $('#password-modal').modal('open');
+        }
       }
 
       EventWorker.event.trigger('showToast', '共有された日暮里を取得しました');
@@ -88,14 +94,18 @@
       }
 
       const password = $('#shared-password').val();
+      self.decode(password);
+    }
+
+    decode(password) {
       self.nippo.sharedTitle = self.aes256ctrDecrypt(self.sharedTitleOrig, password);
       self.nippo.sharedBody = self.aes256ctrDecrypt(self.sharedBodyOrig, password);
 
       try {
-        self.nippo.sharedTitle = self.aes256ctrDecrypt(self.sharedTitleOrig, password);
-        self.nippo.sharedBody = self.aes256ctrDecrypt(self.sharedBodyOrig, password);
+        self.nippo.sharedTitle = decodeURIComponent(self.nippo.sharedTitle, password);
+        self.nippo.sharedBody = decodeURIComponent(self.nippo.sharedBody, password);
       } catch (e) {
-        console.warn(e):
+        console.warn(e);
       }
 
       self.update();

@@ -53,6 +53,7 @@ router.routes([
   new Router.Route({path: '/nippo/list', tag: 'page-list'}),
   new Router.Route({path: '/nippo/create', tag: 'page-create'}),
   new Router.Route({path: '/nippo/edit/:nippoId', tag: 'page-edit'}),
+  new Router.Route({path: '/nippo/share/:username/:hash/:password', tag: 'page-share'}),
   new Router.Route({path: '/nippo/share/:username/:hash', tag: 'page-share'}),
   new Router.Route({path: '/login', tag: 'page-login'}),
   new Router.Route({path: '/signup', tag: 'page-signup'}),
