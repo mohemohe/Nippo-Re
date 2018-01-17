@@ -18,7 +18,7 @@
         </div>
 
       </div>
-      <div id="markdown-content" class="row { this.zenMode ? 'zen' : '' }">
+      <div id="markdown-content" class="row markdown-body { this.zenMode ? 'zen' : '' }">
         <textarea id="simplemde"></textarea>
       </div>
     </form>
@@ -115,6 +115,10 @@
       flex: 1;
     }
 
+    #markdown-content .CodeMirror-lines {
+      font-family: "Ricty Diminished", "Osaka－等幅", "Osaka-等幅", Osaka-mono, "ＭＳ ゴシック", "MS Gothic", "Courier New", Courier, Monaco, Menlo, Consolas, "Lucida Console", monospace;
+    }
+
     #markdown-content .editor-toolbar.fullscreen,
     #markdown-content .CodeMirror-fullscreen,
     #markdown-content .editor-preview-side {
@@ -156,6 +160,10 @@
 
     .share-copy-button {
       margin-right: 1rem;
+    }
+
+    .markdown-body ul * {
+      list-style-type: initial !important;
     }
 
     input, textarea {
@@ -245,6 +253,11 @@
     }
 
     nippoSaveExec() {
+      if (self.id < 0) {
+        EventWorker.event.trigger('showToast', 'デモ日暮里は保存できません');
+        return;
+      }
+
       let error = false;
       if(self.title === '') {
         error = true;

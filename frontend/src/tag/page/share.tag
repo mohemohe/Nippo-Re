@@ -33,7 +33,9 @@
   </div>
 
   <style>
-
+    .markdown-body ul * {
+      list-style-type: initial !important;
+    }
   </style>
 
   <script>

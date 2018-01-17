@@ -2,6 +2,78 @@ import * as _ from 'lodash';
 import { EventWorker } from '../eventWorker';
 import { IndexedDb } from '../indexedDb';
 
+const welcomeBody = `# Nippo:Reへようこそ！
+
+※ この日暮里は新規で何か書くと自動で消えます
+
+## Nippo:Re とは？
+
+Nippo:Re はブラウザー内蔵のIndexed DBにテキストを保存する、セキュアなメモ サイトです。
+初期設定では、アプリが動作するためのデータを読み込む以外はサーバーと通信していません。
+
+サーバーにメモのバックアップを保存することができます。
+[新規登録](http://localhost:1337/#/signup)ページからアカウントを登録してください。
+登録後は、[設定](http://localhost:1337/#/settings)ページのリモート データベースからエクスポートできます。
+エンドツーエンド暗号化パスワードを設定すると、AES 256bitによる金融機関レベルの強力な暗号化をローカルで行います。
+
+## Nippo:Reでできること
+
+### アカウント未登録（オフラインモード）
+
+- メモの作成
+- メモの検索
+- メモのJSONエクスポートとインポート
+
+### アカウント登録（オンラインモード）
+
+- アカウント未登録でできること全て
+- リモートDBへのメモのバックアップとリストア
+- メモの共有（E2E暗号化が有効な場合は別途共有用E2E暗号化パスワードが必要）
+
+## Nippo:Reで使えるフォーマット
+
+Markdownまたは制限付きHTMLで書くことができます。
+
+### Markdown
+
+[GitHub Flavored Markdown](https://github.github.com/gfm/ "GitHub Flavored Markdown Spec")におおむね準拠しています。
+
+| 例えば   | テーブルが |
+| -------- | ---------- |
+| 使えます | 。         |
+
+### 制限付きHTML
+
+\`<script>\`タグを除くタグに対応しています。
+例えば、
+
+<style>
+.zzzz-sample-style {
+  background: #44aaff;
+  color: #ffffff;
+  padding: 2rem;
+  font-size: 1.5rem;
+}
+</style>
+
+<div class='zzzz-sample-style'>サンプルのdiv要素です。</div>
+
+<marquee><h1>🍣 🍣 🍣 🍣 🍣 </h1></marquee>
+
+のような感じで書けます。
+
+`;
+
+const demoNippore = {
+  id: -1,
+  date: "19700101",
+  title: "Nippo:Reへようこそ！",
+  body: welcomeBody,
+  isShared: false,
+  sharedHash: "",
+  sharedPassword: "",
+};
+
 export function nippoSave(args) {
   let dbObj = {
     title: args.title,
@@ -43,6 +115,9 @@ export function nippoUpdate(args) {
 
 export function nippoList(offset, limit) {
   IndexedDb.dexie.nippo.orderBy('date').reverse().offset(offset).limit(limit).toArray().then((result) => {
+    if (result.length == 0) {
+      result.push(demoNippore);
+    }
     EventWorker.event.trigger('nippoList:done', result);
   }).catch(() => {
     EventWorker.event.trigger('nippoList:error');
@@ -77,6 +152,11 @@ export function nippoSearch(keyword, offset, limit) {
 }
 
 export function nippoGet(id) {
+  if (id < 0) {
+    EventWorker.event.trigger('nippoGet:done', demoNippore);
+    return;
+  }
+
   IndexedDb.dexie.nippo.get(id).then((result) => {
     EventWorker.event.trigger('nippoGet:done', result);
   }).catch((e) => {
