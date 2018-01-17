@@ -274,7 +274,7 @@ export function syncExportDB(e2eEncPassword) {
     return res.data;
   }).then(data => {
     if(data.status === 0) {
-      localStorage.syncApiVersion = 2;
+      localStorage.syncApiVersion = 3;
       EventWorker.event.trigger('syncExportDB:done');
     } else {
       throw new Error();
