@@ -10,7 +10,7 @@
     </div>
 
     <div class="row">
-      <div id="md2html" class="col s12" />
+      <div id="md2html" class="col s12 markdown-body" />
     </div>
   </div>
   <div id="password-modal" class="modal bottom-sheet">
