@@ -142,7 +142,6 @@ export function updatePassword(password) {
     });
   }).then(res => {
     if (res.status === 200) {
-      localStorage.syncApiVersion = 2;
       EventWorker.event.trigger('updatePassword:done');
     } else {
       EventWorker.event.trigger('updatePassword:error');

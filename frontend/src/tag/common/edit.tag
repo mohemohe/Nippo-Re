@@ -407,8 +407,8 @@
       EventWorker.event.off('nippoSave:error', self.nippoSaveError);
       EventWorker.event.off('nippoGet:done', self.getNippoDone);
       EventWorker.event.off('nippoGet:error', self.getNippoError);
-      EventWorker.event.off('syncExportDB:done', self.exportRemoteDBDone);
-      EventWorker.event.off('syncExportDB:error', self.exportRemoteDBError);
+      EventWorker.event.off('updateRemoteNippo:done', self.exportRemoteDBDone);
+      EventWorker.event.off('updateRemoteNippo:error', self.exportRemoteDBError);
       $('.nippo-input').off('keyup', self.onInput);
       $(window).off('keydown', self.hookCtrlS);
 
@@ -475,8 +475,8 @@
       EventWorker.event.on('nippoSave:error', self.nippoSaveError);
       EventWorker.event.on('nippoGet:done', self.getNippoDone);
       EventWorker.event.on('nippoGet:error', self.getNippoError);
-      EventWorker.event.on('syncExportDB:done', self.exportRemoteDBDone);
-      EventWorker.event.on('syncExportDB:error', self.exportRemoteDBError);
+      EventWorker.event.on('updateRemoteNippo:done', self.exportRemoteDBDone);
+      EventWorker.event.on('updateRemoteNippo:error', self.exportRemoteDBError);
       $('.nippo-input').on('keyup', self.onInput);
       $(window).on('keydown', self.hookCtrlS);
 
