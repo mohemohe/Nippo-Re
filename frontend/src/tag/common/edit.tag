@@ -51,12 +51,15 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col l10 m9 s12">
+        <div class="input-field col s12">
           <input disabled="disabled" id="shared-permalink" type="text" class="validate active" value="{ this.sharedPermalink }">
           <label for="shared-permalink">共有用パーマリンク</label>
         </div>
-        <div class="col l2 m3 s12">
-          <button id="copy-permalink" class="btn waves-effect waves-light right { disabled: !this.isShared }" onclick="{ this.onClickCopyPermalinkButton }">コピー
+        <div class="col s12">
+          <button id="copy-permalink" class="btn waves-effect waves-light { disabled: !this.isShared } share-copy-button tooltipped" data-position="bottom" data-delay="50" data-tooltip="日暮里の閲覧はパスワードを入力する必要があります" onclick="{ this.onClickCopyPermalinkButton }">URLのみコピー
+            <i class="material-icons left">content_copy</i>
+          </button>
+          <button id="copy-permalink" class="btn waves-effect waves-light { disabled: !this.isShared } share-copy-button with-password tooltipped" data-position="bottom" data-delay="50" data-tooltip="共有URLを開くだけで日暮里を閲覧できます" onclick="{ this.onClickCopyPermalinkButton }">パスワード付きでコピー
             <i class="material-icons left">content_copy</i>
           </button>
         </div>
@@ -149,6 +152,10 @@
       bottom: 1em;
       right: 1em;
       z-index: 99999;
+    }
+
+    .share-copy-button {
+      margin-right: 1rem;
     }
 
     input, textarea {
@@ -366,8 +373,10 @@
       self.isShared = document.querySelector('#is-shared').checked;
     }
 
-    onClickCopyPermalinkButton() {
+    onClickCopyPermalinkButton(e) {
       const permalink = self.sharedPermalink;
+      const sharedPassword = self.sharedPassword;
+
       if (!permalink || permalink === '') {
         EventWorker.event.trigger('showToast', '共有用パーマリンクは保存後に生成されます');
         return;
@@ -380,7 +389,11 @@
 
       const p = document.createElement('p');
       document.body.appendChild(p);
-      p.innerHTML = permalink;
+      if (e.target.classList.contains('with-password')) {
+        p.innerHTML = `${permalink}/${sharedPassword}`;
+      } else {
+        p.innerHTML = permalink;
+      }
 
       let result;
       try {
