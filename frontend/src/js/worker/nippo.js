@@ -115,7 +115,7 @@ export function nippoUpdate(args) {
 
 export function nippoList(offset, limit) {
   IndexedDb.dexie.nippo.orderBy('date').reverse().offset(offset).limit(limit).toArray().then((result) => {
-    if (result.length == 0) {
+    if (offset === 0 && result.length === 0) {
       result.push(demoNippore);
     }
     EventWorker.event.trigger('nippoList:done', result);
