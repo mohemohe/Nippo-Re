@@ -210,7 +210,7 @@
       EventWorker.event.on('nippoList:done', self.updateList);
       EventWorker.event.on('nippoList:error', self.errorList);
       EventWorker.event.on('nippoCount:done', self.updateTotalNippoCount);
-      EventWorker.event.on('nippoCount:done', self.errorList);
+      EventWorker.event.on('nippoCount:error', self.errorList);
       EventWorker.event.on('syncImportDB:done', self.importRemoteDBDone);
       EventWorker.event.on('syncImportDB:error', self.importRemoteDBError);
       EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
@@ -224,6 +224,8 @@
     this.on('before-unmount', () => {
       EventWorker.event.off('nippoList:done', self.updateList);
       EventWorker.event.off('nippoList:error', self.errorList);
+      EventWorker.event.off('nippoCount:done', self.updateTotalNippoCount);
+      EventWorker.event.off('nippoCount:error', self.errorList);
       EventWorker.event.off('syncImportDB:done', self.importRemoteDBDone);
       EventWorker.event.off('syncImportDB:error', self.importRemoteDBError);
     });
