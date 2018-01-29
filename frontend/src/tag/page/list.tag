@@ -95,6 +95,13 @@
     this.limit = 10;
     this.paginate = [];
     this.list = [];
+    this.totalNippoCount = 0;
+    this.paginateLimit = 1;
+
+    updateTotalNippoCount(count) {
+      self.totalNippoCount = count;
+      self.updatePaginate();
+    }
 
     updateList(list) {
       list.sort((val1, val2) => {
@@ -113,11 +120,19 @@
       self.offset = (paginateIndex - 1) * self.limit;
       self.paginate = [];
 
+      self.paginateLimit = Math.ceil(self.totalNippoCount / self.limit);
+      if (self.paginateLimit < 1) {
+        self.paginateLimit = 1;
+      }
+
       let lowerLimit = self.paginateIndex - 2;
       let upperLimit = self.paginateIndex + 2;
       if(self.paginateIndex <= 3) {
         lowerLimit = 1;
         upperLimit = 5;
+      }
+      if (self.paginateLimit < upperLimit) {
+        upperLimit = self.paginateLimit;
       }
 
       for(let i = lowerLimit; i <= upperLimit; i++) {
@@ -145,7 +160,9 @@
     }
 
     plusPaginateIndex() {
-      self.paginateIndex++;
+      if (self.paginateIndex < self.paginateLimit) {
+        self.paginateIndex++;
+      }
       self.updatePaginate();
       self.raiseUpdateList();
     }
@@ -192,9 +209,12 @@
     this.on('mount', () => {
       EventWorker.event.on('nippoList:done', self.updateList);
       EventWorker.event.on('nippoList:error', self.errorList);
+      EventWorker.event.on('nippoCount:done', self.updateTotalNippoCount);
+      EventWorker.event.on('nippoCount:done', self.errorList);
       EventWorker.event.on('syncImportDB:done', self.importRemoteDBDone);
       EventWorker.event.on('syncImportDB:error', self.importRemoteDBError);
       EventWorker.event.trigger('nippoList:raise', self.offset, self.limit);
+      EventWorker.event.trigger('nippoCount:raise');
 
       $('#search').on('keyup', self.onSearch);
 

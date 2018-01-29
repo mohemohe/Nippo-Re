@@ -235,3 +235,11 @@ export function nippoDelete(id) {
     EventWorker.event.trigger('nippoDelete:error');
   });
 }
+
+export function nippoCount() {
+  IndexedDb.dexie.nippo.count().then((count) => {
+    EventWorker.event.trigger('nippoCount:done', count || 0);
+  }).catch((e) => {
+    EventWorker.event.trigger('nippoCount:error');
+  });
+}
