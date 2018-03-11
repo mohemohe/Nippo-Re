@@ -132,6 +132,7 @@
         upperLimit = 5;
       }
       if (self.paginateLimit < upperLimit) {
+        lowerLimit = self.paginateLimit - 4;
         upperLimit = self.paginateLimit;
       }
 
