@@ -47,7 +47,7 @@
       <div class="row">
         <div class="input-field col s12">
           <input disabled="{ disabled: !this.isShared }" id="shared-password" type="password" class="active nippo-input" value="{ this.sharedPassword }">
-          <label for="shared-password">共有用エンドツーエンド暗号化パスワード</label>
+          <label for="shared-password">共有用エンドツーエンド暗号化パスワード { localStorage.e2eEncPassword ? "（エンドツーエンド暗号化が有効なため必須です）" : "" }</label>
         </div>
       </div>
       <div class="row">
