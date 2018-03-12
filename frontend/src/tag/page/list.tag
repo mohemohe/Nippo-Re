@@ -135,6 +135,9 @@
         lowerLimit = self.paginateLimit - 4;
         upperLimit = self.paginateLimit;
       }
+      if (lowerLimit < 1) {
+        lowerLimit = 1;
+      }
 
       for(let i = lowerLimit; i <= upperLimit; i++) {
         self.paginate.push({
