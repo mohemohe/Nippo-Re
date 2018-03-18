@@ -1,7 +1,7 @@
 <app>
   <common-header/>
 
-  <main>
+  <main class="blue-grey lighten-5">
     <route/>
   </main>
 

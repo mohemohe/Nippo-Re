@@ -21,19 +21,16 @@
 
     <div class="row">
       <div class="col s12">
-        <div class="collection">
-          <div each="{ list }">
-            <a class="collection-item" href="{ '#/nippo/edit/' + id }">
-              <div class="row">
-                <div class="col s8">
-                  <h4 class="left">{ title }</h4>
-                </div>
-                <div class="col s4">
-                  <h6 class="right">{ date.substring(0, 4) + '/' + date.substring(4, 6) + '/' + date.substring(6, 8) }</h6>
-                </div>
+        <div each="{ list }">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-title-container">
+                <h4><a class="card-title teal-text">{ title }</a></h4>
+                <h6 class="right">{ date.substring(0, 4) + '/' + date.substring(4, 6) + '/' + date.substring(6, 8) }</h6>
               </div>
-              <p>{ body.substring(0, 140) }</p>
-            </a>
+              <p><common-raw content="{body.substring(0, 140)} {body.length > 140 ? '...' : ''}"/></p>
+              <a class="waves-effect waves-red btn-floating red red-text text-lighten-2 right clearfix" href="{ '#/nippo/edit/' + id }"><i class="material-icons">mode_edit</i></a>
+            </div>
           </div>
         </div>
       </div>
@@ -83,6 +80,20 @@
     :scope .material-icons.prefix {
       line-height: 43px;
     }
+
+    :scope .card-title-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    :scope .card-title-container > * {
+      margin-top: 0;
+    }
+
+    :scope .card {
+      margin-bottom: 2rem;
+    }
   </style>
 
   <script>
@@ -110,6 +121,9 @@
         }else{
           return -1;
         }
+      });
+      list.forEach(nippo => {
+        nippo.body = nippo.body.replace(/\n/g, '<br>');
       });
       self.list = list;
       self.update();
