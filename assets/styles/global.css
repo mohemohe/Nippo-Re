@@ -23,3 +23,14 @@ html.edit body {
 .modal.open {
   z-index: 100001 !important;
 }
+
+code,
+pre,
+.CodeMirror-line {
+  font-family:
+    "Cica",
+    "SourceHanCodeJP-Regular",
+    "M+ 1m",
+    "mplus-1m-regular",
+    monospace !important;
+}
