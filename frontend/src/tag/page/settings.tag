@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col s12">
         <div class="collection">
-          <div class="collection-header"><h4>ローカル データベース</h4></div>
+          <div class="collection-header teal lighten-1 white-text"><h4>ローカル データベース</h4></div>
           <a href="javascript:void(0)" class="collection-item waves-effect waves-teal" onclick="{ importLocalDBModal }">インポート</a>
           <a href="javascript:void(0)" class="collection-item waves-effect waves-teal" onclick="{ exportLocalDBModal }">エクスポート</a>
           <a href="javascript:void(0)" class="collection-item waves-effect waves-teal" onclick="{ resetLocalDBModal }">リセット</a>
@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col s12">
         <div class="collection">
-          <div class="collection-header"><h4>リモート データベース</h4></div>
+          <div class="collection-header teal lighten-1 white-text"><h4>リモート データベース</h4></div>
           <div class="collection-item row">
             <div class="input-field col s12">
               <input id="e2e-enc-password" type="password">
@@ -44,7 +44,7 @@
     <div class="row">
       <div class="col s12">
         <div class="collection">
-          <div class="collection-header"><h4>アカウント パスワード</h4></div>
+          <div class="collection-header teal lighten-1 white-text"><h4>アカウント パスワード</h4></div>
           <div class="collection-item">
             <div class="row">
               <div class="input-field col s12">
@@ -99,6 +99,11 @@
     pre {
       font-family: Koruri;
       white-space: pre-wrap;
+    }
+
+    :scope h4 {
+      margin: 0;
+      padding : 1rem;
     }
   </style>
 
