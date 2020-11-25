@@ -31,7 +31,7 @@
     "grunt-contrib-watch": "1.0.0",
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.5.2",
-    "highlight.js": "^9.12.0",
+    "highlight.js": "^10.1.2",
     "include-all": "^1.0.0",
     "indexeddb-export-import": "^1.0.3",
     "ismobilejs": "^0.4.1",
