@@ -40,7 +40,7 @@
     "lodash": "^4.17.13",
     "marked": "^0.3.6",
     "materialize-css": "^0.100.2",
-    "moment": "^2.19.3",
+    "moment": "^2.29.2",
     "pako": "^1.0.6",
     "query-string": "^5.0.1",
     "rc": "1.0.1",
